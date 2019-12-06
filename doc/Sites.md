@@ -1,6 +1,6 @@
 # PicManager (J2EE 项目) 页面结构
 
-### /login.jsp。
+### /Login.jsp。
 
 登录界面。该页面也具有注册账户功能。
 

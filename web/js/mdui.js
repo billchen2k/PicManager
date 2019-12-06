@@ -5745,7 +5745,7 @@
       buttons: [],              // 按钮
       stackedButtons: false,    // 垂直排列按钮
       cssClass: '',             // 在 Dialog 上添加的 CSS 类
-      history: true,            // 监听 hashchange 事件
+      history: false,            // 监听 hashchange 事件
       overlay: true,            // 是否显示遮罩
       modal: false,             // 是否模态化对话框
       closeOnEsc: true,         // 按下 esc 时关闭对话框
