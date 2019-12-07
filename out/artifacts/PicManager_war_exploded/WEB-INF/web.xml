@@ -22,6 +22,15 @@
         <servlet-name>login</servlet-name>
         <url-pattern>/login</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>changepassword</servlet-name>
+        <servlet-class>ChangePassword</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>changepassword</servlet-name>
+        <url-pattern>/changepassword</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://picmanager.billc.io:3306</param-value>

@@ -5618,7 +5618,7 @@
           // 为 false 时是通过 js 关闭，需要后退一个历史记录
           // 为 true 时是通过后退按钮关闭，不需要后退历史记录
           if (!_arguments[0]) {
-            window.history.back();
+            //window.history.back();
           }
 
           $window.off('hashchange', hashchangeEvent);

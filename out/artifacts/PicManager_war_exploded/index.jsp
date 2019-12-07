@@ -11,7 +11,7 @@
     <title>登录 - PicManager</title>
     <link rel="stylesheet" href="css/mdui.min.css">
     <link rel="stylesheet" href="css/pm-style.css">
-    <script src="js/mdui.min.js" type="text/javascript"></script>
+    <script src="js/mdui.js" type="text/javascript"></script>
     <script src="js/jquery-3.4.1.min.js" type="text/javascript"></script>
     <meta charset="UTF-8" content="text/html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
@@ -104,7 +104,7 @@
 
             <div class="mdui-col-xs-12">
                 <div class="mdui-typo-display-3 mdui-m-x-5 mdui-m-t-5 mdui-m-b-2">Welcome.</div>
-                <div class="mdui-typo-subheading-opacity mdui-m-x-5 mdui-m-b-2">在开始前，请先登录。</div>
+                <div class="mdui-typo-subheading-opacity mdui-m-x-5 mdui-m-b-2">这是一个 J2EE 的期末项目。在开始前，请先登录。</div>
             </div>
 
         </div>
@@ -145,14 +145,18 @@
                     <div class="mdui-textfield-error">密码不能为空</div>
                 </div>
                 <div class="actions mdui-clearfix">
-                    <button class="mdui-btn mdui-ripple more-option" type="button"
-                            mdui-menu="{target: '#mc-Login-menu', position: 'top', covered: true}">更多...
-                    </button>
-                    <ul class="mdui-menu" id="mc-login-menu">
-                        <li class="mdui-menu-item" mdui-dialog="{target: '#dialog-register'}" mdui-dialog-close><a
-                                class="mdui-ripple">注册</a></li>
-                    </ul>
-                    <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-theme mdui-float-right">登录</button>
+                    <a mdui-dialog-close mdui-dialog="{target : '#dialog-register'}"
+                            class="mdui-btn mdui-btn mdui-color-white mdui-float-left">没有账户？注册
+                    </a>
+                    <div class="mdui-spinner mdui-invisible" id="spinner-login"></div>
+<%--                    <button class="mdui-btn mdui-ripple more-option" type="button"--%>
+<%--                            mdui-menu="{target: '#mc-login-menu', position: 'top', covered: true}">更多...--%>
+<%--                    </button>--%>
+<%--                    <ul class="mdui-menu" id="mc-login-menu">--%>
+<%--                        <li class="mdui-menu-item" mdui-dialog="{target: '#dialog-register'}" mdui-dialog-close><a--%>
+<%--                                class="mdui-ripple">注册</a></li>--%>
+<%--                    </ul>--%>
+                    <button id="button-login" type="submit" class="mdui-btn mdui-btn-raised mdui-color-theme mdui-float-right">登录</button>
                 </div>
             </form>
 
@@ -197,7 +201,7 @@
                 <div class="mdui-textfield-error">密码不匹配</div>
             </div>
             <div class="actions mdui-clearfix">
-                <button mdui-dialog="{target : '#dialog-Login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</button>
+                <a mdui-dialog="{target : '#dialog-login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</a>
                 <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">注册</button>
 
             </div>
@@ -224,7 +228,9 @@
             console.log("VALID");
         }
     })
-
+    $("#button-login").onsubmit = function (e) {
+        $("#spinner-login").removeClass("mdui-invisble");
+    }
 </script>
 <script src="js/canvas.js" type="text/javascript"></script>
 </html>

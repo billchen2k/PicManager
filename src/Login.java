@@ -8,8 +8,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import utils.Encrypt;
 import utils.DatabaseManager;
+import utils.Utils;
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @WebServlet(name = "Login")
 public class Login extends HttpServlet {
@@ -21,7 +24,7 @@ public class Login extends HttpServlet {
 		String identifier = request.getParameter("identifier");
 		String password = request.getParameter("password");
 		password = Encrypt.SHA1(password);
-
+		session.setMaxInactiveInterval(60 * 30);
 		db.getConnection();
 		try{
 			rs = db.executeQuery("SELECT * from `user` WHERE username='" + identifier + "';");
@@ -43,6 +46,10 @@ public class Login extends HttpServlet {
 				session.setAttribute("logined_username", rs.getString("username"));
 				session.setAttribute("logined_user_details", rs);
 				response.sendRedirect("view.jsp");
+				String ipAddress = Utils.getRealRemoteIP(request);
+				String logSQL = "INSERT INTO `picmanager`.`log`(`uid`, `username`,  `assetid`, `assetname`, `type`, `date`, `request_ip`, `notes`) VALUES ('" + rs.getString("uid") +"', '"
+						+  rs.getString("username") + "', '-1', 'N/A', 'login', '" + Utils.getCurrentDateTime() + "', '" + ipAddress + "', NULL);";
+				db.executeUpdate(logSQL);
 				// request.getRequestDispatcher("view.jsp").forward(request, response);
 				return;
 			}
