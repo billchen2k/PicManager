@@ -44,6 +44,7 @@
         }
         request.removeAttribute("stat");
     }
+
     else {
         %>
             <script type="text/javascript">
@@ -52,6 +53,26 @@
         <%
     }
  %>
+<%
+    String attrre = (String)request.getAttribute("re");
+     if(attrre != null&&attrre == "registration_failed")
+     {%>
+
+       <script type = "text/javascript">
+               var initMessage = "注册失败";</script>
+<%
+    }
+
+     else
+    {
+        %>
+    <script type="text/javascript">
+      var initMessage = ""</script>
+<%
+    }
+%>
+
+
 
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
     <header class="mdui-appbar mdui-appbar-fixed">
@@ -183,7 +204,7 @@
 
             <div class="mdui-textfield mdui-textfield-floating-label" type="email" required="">
                 <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" name="name" type="text">
+                <input class="mdui-textfield-input" name="email" type="text">
                 <div class="mdui-textfield-error">邮箱格式错误</div>
 
             </div>
