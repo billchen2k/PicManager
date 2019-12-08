@@ -31,7 +31,7 @@
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
 
-<%--<%@include file="header.jsp"%>--%>
+<%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:;" mdui-drawer="{target: '#drawer-main', swipe: true}" class="mdui-btn mdui-btn-icon"><i
@@ -72,7 +72,7 @@
 
 <div class="mdui-drawer mdui-color-white" id="drawer-main">
     <ul class="mdui-list">
-        <a href="view.jsp" class="mdui-list-item mdui-ripple">
+        <a href="view" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
         </a>
@@ -145,7 +145,7 @@
 <%--        </div>--%>
 <%--    </div>--%>
 
-    <div class="mdui-row mdui-m-t-2">
+    <div class="mdui-row mdui-m-t-2 mdui-m-b-5">
         <div class="mdui-table-fluid">
             <table class="mdui-table mdui-table-hoverable">
                 <thead>
@@ -189,7 +189,7 @@
                     	notes = "";
                     }
                     out.println("<tr>");
-                	out.println("<td>" + rs.getInt("logid") + "</td>");
+                	out.println("<td id=>" + rs.getInt("logid") + "</td>");
                     out.println("<td>" + "" + rs.getString("username") + " (UID:" + rs.getString("uid") + ")" + "</td>");
                     out.println("<td>" + rs.getString("assetname") + "</td>");
                     out.println("<td>" + typeName + "</td>");

@@ -25,7 +25,7 @@
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
 
-<%--<%@include file="header.jsp"%>--%>
+<%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:;" mdui-drawer="{target: '#drawer-main', swipe: true}" class="mdui-btn mdui-btn-icon"><i
@@ -72,7 +72,7 @@
 
 <div class="mdui-drawer mdui-color-white" id="drawer-main">
     <ul class="mdui-list">
-        <a href="view.jsp" class="mdui-list-item mdui-ripple">
+        <a href="view" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
         </a>
@@ -152,7 +152,7 @@
             </div>
             <div class="actions mdui-clearfix">
                 <button type="submit"
-                        class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">修改密码
+                        class="mdui-btn mdui-btn-raised mdui-color-deep-orange mdui-text-color-white mdui-float-right">修改密码
                 </button>
             </div>
         </form>

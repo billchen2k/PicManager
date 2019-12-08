@@ -1,6 +1,9 @@
 <%@ page import="bean.Asset" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.LinkedList" %><%--
+<%@ page import="java.util.LinkedList" %>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="utils.DatabaseManager" %>
+<%@ page import="utils.Utils" %><%--
   Created by IntelliJ IDEA.
   User: billchen
   Date: 2019-12-03
@@ -36,10 +39,11 @@
             session.removeAttribute("to_notify_success");
         }
     }
+    HashMap<Integer, Asset> assetMap = (HashMap<Integer, Asset>)request.getAttribute("assetMap");
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
 
-<%--<%@include file="header.jsp"%>--%>
+<%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:;" mdui-drawer="{target: '#drawer-main', swipe: true}" class="mdui-btn mdui-btn-icon"><i
@@ -62,10 +66,10 @@
 
 <div class="mdui-drawer mdui-color-white" id="drawer-main">
     <ul class="mdui-list">
-        <li class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <a href="/view" class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
-        </li>
+        </a>
         <li class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
             <div class="mdui-list-item-content">管理</div>
@@ -88,7 +92,7 @@
     <div class="mdui-row">
         <div class="mdui-col-xs-12">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2">Explore</div>
-            <div class="mdui-typo-subheading-opacity mdui-m-b-2">选择要浏览的图片。</div>
+            <div class="mdui-typo-subheading-opacity mdui-m-b-2">检索出了 <%= Integer.toString(assetMap.size()) %> 张图片，请选择要浏览的图片。</div>
         </div>
     </div>
 
@@ -97,265 +101,288 @@
             <div class="mdui-panel-item">
                 <div class="mdui-panel-item-header">
                     <div class="mdui-panel-item-title">过滤器</div>
-                    <div class="mdui-panel-item-summary">当前未设置过滤器</div>
+                    <div class="mdui-panel-item-summary"><%=request.getAttribute("filterNote")%></div>
                     <div class="mdui-panel-item-summary"></div>
                     <i class="mdui-panel-item-arrow mdui-icon material-icons">keyboard_arrow_down</i>
                 </div>
                 <div class="mdui-panel-item-body">
-                    <div class="mdui-row">
-                        <div class="mdui-col-sm-12">
-                            <div class="mdui-textfield">
-                                <i class="mdui-icon material-icons">search</i>
-                                <input class="mdui-textfield-input" type="text" mdui-tooltip="{content: '查找（支持名称及元数据）'} " placeholder="查找（支持名称及元数据）"/>
+                    <form method="post" action="/view">
+                        <div class="mdui-row">
+                            <div class="mdui-col-sm-12">
+                                <div class="mdui-textfield">
+                                    <i class="mdui-icon material-icons">search</i>
+                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                           mdui-tooltip="{content: '全局查找（支持名称及元数据）'} " placeholder="全局查找（支持名称及元数据）"/>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="mdui-row">
-                        <div class="mdui-col-sm-6">
-                            <div class="mdui-textfield">
-                                <i class="mdui-icon material-icons">date_range</i>
-                                <input class="mdui-textfield-input" mdui-tooltip="{content: '选择录入日期范围'} "name="daterange" type="text" value=""/>
-                                <script>
-                                    $(function () {
-                                        $('input[name="daterange"]').daterangepicker({
-
-                                            "locale": {
-                                                "format": "YYYY/MM/DD",
-                                                "separator": " - ",
-                                                "applyLabel": "确定",
-                                                "cancelLabel": "取消",
-                                                "fromLabel": "From",
-                                                "toLabel": "To",
-                                                "customRangeLabel": "Custom",
-                                                "weekLabel": "W",
-                                                "daysOfWeek": [
-                                                    "Su",
-                                                    "Mo",
-                                                    "Tu",
-                                                    "We",
-                                                    "Th",
-                                                    "Fr",
-                                                    "Sa"
-                                                ],
-                                                "monthNames": [
-                                                    "January",
-                                                    "February",
-                                                    "March",
-                                                    "April",
-                                                    "May",
-                                                    "June",
-                                                    "July",
-                                                    "August",
-                                                    "September",
-                                                    "October",
-                                                    "November",
-                                                    "December"
-                                                ],
-                                                "firstDay": 1
-                                            },
-                                            opens: 'right'
-                                        }, function (start, end, label) {
-                                            console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                        <div class="mdui-row">
+                            <div class="mdui-col-sm-6">
+                                <div class="mdui-textfield">
+                                    <i class="mdui-icon material-icons">date_range</i>
+                                    <input class="mdui-textfield-input" mdui-tooltip="{content: '选择录入日期范围'} "
+                                           name="daterange" type="text" value=""/>
+                                    <script>
+                                        $(function () {
+                                            $('input[name="daterange"]').daterangepicker({
+                                                "locale": {
+                                                    "format": "YYYY/MM/DD",
+                                                    "separator": " - ",
+                                                    "applyLabel": "确定",
+                                                    "cancelLabel": "取消",
+                                                    "fromLabel": "From",
+                                                    "toLabel": "To",
+                                                    "customRangeLabel": "Custom",
+                                                    "weekLabel": "W",
+                                                    "daysOfWeek": [
+                                                        "Su",
+                                                        "Mo",
+                                                        "Tu",
+                                                        "We",
+                                                        "Th",
+                                                        "Fr",
+                                                        "Sa"
+                                                    ],
+                                                    "monthNames": [
+                                                        "January",
+                                                        "February",
+                                                        "March",
+                                                        "April",
+                                                        "May",
+                                                        "June",
+                                                        "July",
+                                                        "August",
+                                                        "September",
+                                                        "October",
+                                                        "November",
+                                                        "December"
+                                                    ],
+                                                    "firstDay": 1
+                                                },
+                                                opens: 'right'
+                                            }, function (start, end, label) {
+                                                console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                                            });
                                         });
-                                    });
-                                </script>
+                                    </script>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mdui-col-sm-2">
-                            <div class="mdui-textfield">
-                                <span>国家：</span>
-                                <select class="mdui-select">
-                                    <option value="1">State 1</option>
-                                    <option value="2">State 2</option>
-                                    <option value="3" disabled>State 3</option>
-                                    <option value="4">State 4</option>
-                                    <option value="5">State 5</option>
-                                    <option value="6">State 6</option>
-                                </select>
+                            <div class="mdui-col-sm-3">
+                                <div class="mdui-textfield">
+                                    <i class="mdui-icon material-icons">my_location</i>
+                                    <input name="searchCountry" mdui-tooltip="{content: '按国家查找'} "
+                                           class="mdui-textfield-input" type="text" placeholder="查找国家"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mdui-col-sm-2">
-                            <div class="mdui-textfield">
-                                <span>比例尺：</span>
-                                <select class="mdui-select">
-                                    <option value="1">State 1</option>
-                                    <option value="2">State 2</option>
-                                    <option value="3" disabled>State 3</option>
-                                    <option value="4">State 4</option>
-                                    <option value="5">State 5</option>
-                                    <option value="6">State 6</option>
-                                </select>
+                            <div class="mdui-col-sm-3">
+                                <div class="mdui-textfield">
+                                    <span>比例尺： </span>
+                                    <select name="searchScale" class="mdui-select" mdui-tooltip="{content: '选择比例尺'} ">
+                                        <option value="all">全部</option>
+                                        <option value="1:1">1:1</option>
+                                        <option value="1:10">1:10</option>
+                                        <option value="1:100">1:100</option>
+                                        <option value="1:1000">1:1000</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="mdui-col-sm-2">
-                            <div class="mdui-textfield">
-                                <span>分辨率：</span>
-                                <select class="mdui-select">
-                                    <option value="1">State 1</option>
-                                    <option value="2">State 2</option>
-                                    <option value="3" disabled>State 3</option>
-                                    <option value="4">State 4</option>
-                                    <option value="5">State 5</option>
-                                    <option value="6">State 6</option>
-                                </select>
-                            </div>
                         </div>
-                    </div>
+                        <div class="mdui-panel-item-actions">
+                            <button class="mdui-btn mdui-ripple" onclick="window.location.href='/view'">重置
+                            </button>
+<%--                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>--%>
+                            <button class="mdui-btn mdui-ripple" type="submit">应用筛选器</button>
+                        </div>
+                    </form>
 
-                    <div class="mdui-panel-item-actions">
-                        <button class="mdui-btn mdui-ripple" mdui-panel-item-close>重置</button>
-                        <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>
-                        <button class="mdui-btn mdui-ripple">应用筛选器</button>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-
-
     <div class="mdui-row">
         <div class="mdui-col-sm-8">
             <div class="mdui-tab mdui-tab-full-width" mdui-tab>
-                <a href="#type-a" class="mdui-ripple">实景摄影</a>
-                <a href="#type-b" class="mdui-ripple">遥感图像</a>
-                <a href="#type-c" class="mdui-ripple">卫星云图</a>
+                <a href="#type-photograph" class="mdui-ripple">实景摄影</a>
+                <a href="#type-gis" class="mdui-ripple">遥感图像</a>
+                <a href="#type-cloud" class="mdui-ripple">卫星云图</a>
             </div>
-            <div id="type-a" class="mdui-p-a-2 mdui-container-fluid">
+            <div id="type-photograph" class="mdui-p-a-2 mdui-container-fluid">
                 <div class="mdui-row-xs-2 mdui-row-sm-2 mdui-row-md-3 mdui-row-lg-4 mdui-row-xl-4 mdui-grid-list">
                 <%
-                    List<Asset> assetsList = new LinkedList<>();
-                    String[] names = {
-                            "GIS001.jpg",
-                            "GIS002.jpg",
-                            "GIS007.jpg",
-                            "GIS009.jpg",
-                            "GIS011.jpg",
-                            "GIS025.jpg",
-                            "Scene049.jpg",
-                            "scene010.jpg",
-                            "scene011.jpg",
-                            "scene012.jpg",
-                    };
-                    for(int i = 0; i< names.length; i++){
-                    	Asset one = new Asset();
-                    	one.setUrl("assets/" + names[i]);
-                        assetsList.add(one);
-                    }
-                    for(Asset one : assetsList){
-                    	%>
+                    for(Integer one: assetMap.keySet()){
+                    	if(assetMap.get(one).getCategory().equals("photograph")){
+                        %>
                         <div class="mdui-col">
-                            <div class="mdui-grid-tile">
-                                <% out.print("<img style='width:100%; height: 150px; object-fit: cover' src='" + one.getUrl() + "' />"); %>
-                                <div class="mdui-grid-tile-actions">
+                            <div class="mdui-grid-tile" style="cursor: pointer" onclick='updateDetail(<%=one%>)'>
+                                <% out.print("<img style='width:100%; height: 150px; object-fit: cover' src='" + assetMap.get(one).getUrl() + "' />"); %>
+                                <div class='mdui-grid-tile-actions'>
                                     <div class="mdui-grid-tile-text">
-                                        <div class="mdui-grid-tile-title">一张风景图片</div>
+                                        <div class="mdui-grid-tile-title"><%=assetMap.get(one).getName()%></div>
                                     </div>
 
                                 </div>
                             </div>
                         </div>
-                    <%
+
+                        <%
+                        }
                     }
                 %>
 
+<%--                    <div class="mdui-col">--%>
+<%--                        <div class="mdui-grid-tile">--%>
+<%--                            <img style="width:100%; height: 150px; object-fit: cover" src="assets/example.png"/>--%>
+<%--                            <div class="mdui-grid-tile-actions">--%>
+<%--                                <div class="mdui-grid-tile-text">--%>
+<%--                                    <div class="mdui-grid-tile-title">一张风景图片</div>--%>
+<%--                                </div>--%>
+
+<%--                            </div>--%>
+<%--                        </div>--%>
+<%--                    </div>--%>
+
+
+                </div>
+            </div>
+
+            <div id="type-gis" class="mdui-p-a-2 mdui-container-fluid">
+                <div class="mdui-row-xs-2 mdui-row-sm-2 mdui-row-md-3 mdui-row-lg-4 mdui-row-xl-4 mdui-grid-list">
+                    <%
+                        for (Integer one : assetMap.keySet()) {
+                            if (assetMap.get(one).getCategory().equals("gis")) {
+                    %>
+
                     <div class="mdui-col">
-                        <div class="mdui-grid-tile">
-                            <img style="width:100%; height: 150px; object-fit: cover" src="assets/example.png"/>
-                            <div class="mdui-grid-tile-actions">
+                        <div class="mdui-grid-tile" style="cursor: pointer" onclick='updateDetail(<%=one%>)'>
+                            <% out.print("<img style='width:100%; height: 150px; object-fit: cover' src='" + assetMap.get(one).getUrl() + "' />"); %>
+                            <div class='mdui-grid-tile-actions'>
                                 <div class="mdui-grid-tile-text">
-                                    <div class="mdui-grid-tile-title">一张风景图片</div>
+                                    <div class="mdui-grid-tile-title"><%=assetMap.get(one).getName()%>
+                                    </div>
                                 </div>
 
                             </div>
                         </div>
                     </div>
 
+                    <%
+                            }
+                        }
+                    %>
+                </div>
+
+            </div>
+
+            <div id="type-cloud" class="mdui-p-a-2 mdui-container-fluid">
+                <div class="mdui-row-xs-2 mdui-row-sm-2 mdui-row-md-3 mdui-row-lg-4 mdui-row-xl-4 mdui-grid-list">
+                    <%
+                        for (Integer one : assetMap.keySet()) {
+                            if (assetMap.get(one).getCategory().equals("cloud")) {
+                    %>
+                    <div class="mdui-col">
+                        <div class="mdui-grid-tile" style="cursor: pointer" onclick='updateDetail(<%=one%>)'>
+                            <% out.print("<img style='width:100%; height: 150px; object-fit: cover' src='" + assetMap.get(one).getUrl() + "' />"); %>
+                            <div class='mdui-grid-tile-actions'>
+                                <div class="mdui-grid-tile-text">
+                                    <div class="mdui-grid-tile-title"><%=assetMap.get(one).getName()%>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <%
+                            }
+                        }
+                    %>
 
                 </div>
-                <div id="type-b" class="mdui-p-a-2">类别二</div>
-                <div id="type-c" class="mdui-p-a-2">类别三</div>
+
             </div>
         </div>
 
 
         <div class="mdui-col-sm-4 mdui-p-t-3 mdui-m-b-5">
-            <div class="mdui-table-fluid mdui-m-t-5 mdui-m-b-5">
-                <div class="mdui-card">
-                    <!-- 卡片的媒体内容，可以包含图片、视频等媒体内容，以及标题、副标题 -->
-                    <div class="mdui-card-media">
-                        <img style="overflow: hidden; background-size: contain;" src="/assets/example.png"/>
-
-                    </div>
-                    <!-- 卡片的标题和副标题 -->
-                    <div class="mdui-card-primary">
-                        <div class="mdui-card-primary-title">一张风景图片</div>
-                        <div class="mdui-card-primary-subtitle">中国</div>
-                    </div>
-
-
-                    <!-- 卡片的按钮 -->
-                    <div class="mdui-card-actions mdui-row-xs-3">
-                        <div class="mdui-col">
-                            <button mdui-dialog="{target: '#dialog-zoom'}"class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
-                                <i class="mdui-icon material-icons mdui-icon-left">pageview</i>放大
-                            </button>
+            <%
+                for(Integer one: assetMap.keySet()){
+                	%>
+                         <div class="mdui-table-fluid mdui-m-t-5 mdui-m-b-5 mdui-hidden" id="detail-<%=one%>">
+                            <div class="mdui-card">
+                                <div class="mdui-card-media">
+                                    <img id="img-detail-<%=one%>" style="overflow: hidden; background-size: contain;" src="<%=assetMap.get(one).getUrl()%>"/>
+                                </div>
+                                <div class="mdui-card-primary">
+                                    <div class="mdui-card-primary-title"><%=assetMap.get(one).getName()%></div>
+                                    <div class="mdui-card-primary-subtitle"><%=assetMap.get(one).getCountry() + " " + assetMap.get(one).getLocation()%></div>
+                                </div>
+                                <!-- 卡片的按钮 -->
+                                <div class="mdui-card-actions mdui-row-xs-3">
+                                    <div class="mdui-col">
+                                        <button mdui-dialog="{target: '#dialog-zoom'}"
+                                                class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                                            <i class="mdui-icon material-icons mdui-icon-left">pageview</i>放大
+                                        </button>
+                                    </div>
+                                    <div class="mdui-col">
+                                        <button class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                                            <i class="mdui-icon material-icons mdui-icon-left">edit</i>编辑
+                                        </button>
+                                    </div>
+                                    <div class="mdui-col">
+                                        <button onclick="downloadFile('<%=assetMap.get(one).getUrl()%>')"
+                                                class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                                            <i class="mdui-icon material-icons mdui-icon-left">cloud_download</i>下载
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <table class="mdui-table">
+                                <div class="mdui-subheader">详细元数据</div>
+                                <tbody>
+                                <tr>
+                                    <td>国家</td>
+                                    <td><%=assetMap.get(one).getCountry()%></td>
+                                </tr>
+                                <tr>
+                                    <td>位置</td>
+                                    <td><%=assetMap.get(one).getLocation()%></td>
+                                </tr>
+                                <tr>
+                                    <td>经纬度</td>
+                                    <td><%=assetMap.get(one).getLatitude() + ", " + assetMap.get(one).getLongtitude()%></td>
+                                </tr>
+                                <tr>
+                                    <td>比例尺</td>
+                                    <td><%=assetMap.get(one).getScale()%></td>
+                                </tr>
+                                <tr>
+                                    <td>拍摄日期</td>
+                                    <td><%=assetMap.get(one).getAcq_date()%></td>
+                                </tr>
+                                <tr>
+                                    <td>上传日期</td>
+                                    <td><%=assetMap.get(one).getUpload_time()%></td>
+                                </tr>
+                                <tr>
+                                    <td>修改日期</td>
+                                    <td><%=assetMap.get(one).getLast_modified_date()%></td>
+                                </tr>
+                                <tr>
+                                    <td>上传者 UID</td>
+                                    <td><%=assetMap.get(one).getUploader_uid()%></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <div class="mdui-col">
-                            <button class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
-                                <i class="mdui-icon material-icons mdui-icon-left">edit</i>编辑
-                            </button>
-                        </div>
-                        <div class="mdui-col">
-                            <button onclick="downloadFile('assets/example.png')" class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
-                                <i class="mdui-icon material-icons mdui-icon-left">cloud_download</i>下载
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <table class="mdui-table">
+                    <%
 
-                    <div class="mdui-subheader">详细元数据</div>
+                }
+            %>
 
-                    <tbody>
-                    <tr>
-                        <td>国家</td>
-                        <td>中国</td>
-                    </tr>
-                    <tr>
-                        <td>位置</td>
-                        <td>四川</td>
-                    </tr>
-                    <tr>
-                        <td>经纬度</td>
-                        <td>12, 12</td>
-                    </tr>
-                    <tr>
-                        <td>比例尺</td>
-                        <td>1:100</td>
-                    </tr>
-                    <tr>
-                        <td>拍摄日期</td>
-                        <td>2019.12.7 05:20:00</td>
-                    </tr>
-                    <tr>
-                        <td>上传日期</td>
-                        <td>2019.12.7 05:20:00</td>
-                    </tr>
-                    <tr>
-                        <td>修改日期</td>
-                        <td>2019.12.7 05:20:00</td>
-                    </tr>
-                    <tr>
-                        <td>上传者 UID</td>
-                        <td>100</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
         </div>
     </div>
 
@@ -367,7 +394,7 @@
             </button>
         </div>
         <div class="mdui-dialog-content">
-            <img src="assets/example.png" width="100%" >
+            <img id="img-zoom" src="assets/example.png" width="100%" >
         </div>
     </div>
 </div>
@@ -375,6 +402,8 @@
 </body>
 
 <script type="text/javascript">
+    var activeID = null;
+
     $(document).ready(function () {
         if (initMessage != "") {
             mdui.snackbar(initMessage);
@@ -390,8 +419,20 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        mdui.snackbar("下载已开始。");
+        <%
+
+        %>
+        mdui.snackbar("开始下载：" + url.substring(url.lastIndexOf('/') + 1) + "。");
     }
 
+    function updateDetail(assetid){
+        if(activeID != null){
+            $("#detail-" + activeID).addClass("mdui-hidden");
+        }
+        var newImgSrc = $('#img-detail-' + assetid).attr('src');
+        $("#img-zoom").attr('src', newImgSrc);
+        $("#detail-" + assetid).removeClass("mdui-hidden");
+        activeID = assetid;
+    }
 </script>
 </html>

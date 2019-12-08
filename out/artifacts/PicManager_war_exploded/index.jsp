@@ -73,7 +73,7 @@
 
     <div class="mdui-drawer mdui-color-white" id="drawer-main">
         <ul class="mdui-list">
-            <a href="/view.jsp" class="mdui-list-item mdui-ripple">
+            <a href="/view" class="mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
                 <div class="mdui-list-item-content">浏览</div>
             </a>

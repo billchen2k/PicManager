@@ -20,6 +20,11 @@ public class ChangePassword extends HttpServlet {
 	private ResultSet rs = null;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
+		if (session.getAttribute("logined_uid") == null){
+			request.setAttribute("stat", "not_logined");
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			return;
+		}
 		String oldPassword = request.getParameter("old_password");
 		String newPassword = request.getParameter("new_password");
 		oldPassword = Encrypt.SHA1(oldPassword);

@@ -31,6 +31,22 @@
         <servlet-name>changepassword</servlet-name>
         <url-pattern>/changepassword</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>viewsearch</servlet-name>
+        <servlet-class>ViewSearch</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>viewsearch</servlet-name>
+        <url-pattern>/view</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>downloadfile</servlet-name>
+        <servlet-class>DownloadFile</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>downloadfile</servlet-name>
+        <url-pattern>/downloadFile</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://picmanager.billc.io:3306</param-value>
