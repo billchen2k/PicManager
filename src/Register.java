@@ -32,9 +32,19 @@ public class Register extends HttpServlet {
         password = Encrypt.SHA1(password);
          db.getConnection();
         try {
-            db.executeUpdate("insert into user(username,password,email,registration_date,registration_ip)values ('" + name + "','" + password + "','"+ email +"','"+ date +"','"+ip+"');");
-            request.setAttribute("stat", "registration_success");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            rs = db.executeQuery("select * from user where username = '"+name+"';");
+            if(!rs.next())
+            {
+                db.executeUpdate("insert into user(username,password,email,registration_date,registration_ip)values ('" + name + "','" + password + "','"+ email +"','"+ date +"','"+ip+"');");
+                request.setAttribute("stat", "registration_success");
+                request.getRequestDispatcher("index.jsp").forward(request,response);
+            }
+            else
+            {
+                request.setAttribute("stat","already_exist");
+                request.getRequestDispatcher("index.jsp").forward(request,response);
+            }
+
 
         } catch (Exception e) {
             e.printStackTrace();
