@@ -47,6 +47,14 @@
         <servlet-name>downloadfile</servlet-name>
         <url-pattern>/downloadFile</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>register</servlet-name>
+        <servlet-class>Register</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>register</servlet-name>
+        <url-pattern>/register</url-pattern>
+    </servlet-mapping>
     <context-param>
         <param-name>dburl</param-name>
         <param-value>jdbc:mysql://picmanager.billc.io:3306</param-value>

@@ -6,14 +6,12 @@
     </artifacts-to-build>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="5898969e-2535-49ad-86f4-2f4a36a6c7be" name="Default Changelist" comment="完成注册/登录页面 registered 部分，但是">
-      <change afterPath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/servlet_api.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/register.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+    <list default="true" id="5898969e-2535-49ad-86f4-2f4a36a6c7be" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PicManager.iml" beforeDir="false" afterPath="$PROJECT_DIR$/PicManager.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/PicManager_war_exploded/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PicManager_war_exploded/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/artifacts/PicManager_war_exploded/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/PicManager_war_exploded/index.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/register.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Register.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/web/WEB-INF/web.xml" beforeDir="false" afterPath="$PROJECT_DIR$/web/WEB-INF/web.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/web/index.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/web/index.jsp" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,7 +24,7 @@
     <option name="done" value="true" />
   </component>
   <component name="CoverageViewManager">
-    <option name="myElementSize" value="216" />
+    <option name="myElementSize" value="225" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -267,7 +265,8 @@
       <workItem from="1575621321270" duration="57000" />
       <workItem from="1575621404040" duration="751000" />
       <workItem from="1575623409393" duration="78269000" />
-      <workItem from="1575803217799" duration="3041000" />
+      <workItem from="1575803217799" duration="3107000" />
+      <workItem from="1575868165280" duration="6409000" />
     </task>
     <task id="LOCAL-00001" summary="完成注册/登录页面 login.jsp 的静态部分。">
       <created>1575646935435</created>
@@ -276,7 +275,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575646935435</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="未完成注册/登录页面 registered 部分，">
+      <created>1575814996851</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1575814996851</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -321,10 +327,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="完成注册/登录页面 login.jsp 的静态部分。" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成注册/登录页面 login.jsp 的静态部分。" />
+    <MESSAGE value="未完成注册/登录页面 registered 部分，" />
+    <option name="LAST_COMMIT_MESSAGE" value="未完成注册/登录页面 registered 部分，" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PicManager$Tomcat_9_0_24.ic" NAME="Tomcat 9.0.24 Coverage Results" MODIFIED="1575804735627" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PicManager$Tomcat_9_0_24.ic" NAME="Tomcat 9.0.24 Coverage Results" MODIFIED="1575874000398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">

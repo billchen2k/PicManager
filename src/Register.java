@@ -17,37 +17,36 @@ import java.util.Date;
 
 
 
-@WebServlet(name = "registered")
+@WebServlet(name = "register")
 
-public class register extends HttpServlet {
+public class Register extends HttpServlet {
     private DatabaseManager db = new DatabaseManager();
     private ResultSet rs = null;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
         String name = request.getParameter("name");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
+        String date = Utils.getCurrentDateTime();
+        String ip = Utils.getRealRemoteIP(request);
         password = Encrypt.SHA1(password);
-        Connection con = db.getConnection();
-        int num = 0;
+         db.getConnection();
         try {
-            PreparedStatement regist = con.prepareStatement("insert into user (username,password,email)values (?,?,?)");
-            regist.setString(1, name);
-            regist.setString(2, password);
-            regist.setString(3, email);
-            num = regist.executeUpdate();
+            db.executeUpdate("insert into user(username,password,email,registration_date,registration_ip)values ('" + name + "','" + password + "','"+ email +"','"+ date +"','"+ip+"');");
+            request.setAttribute("stat", "registration_success");
+            request.getRequestDispatcher("index.jsp").forward(request, response);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (num == 0) {
-            //注册失败
-            request.setAttribute("re","registration_failed");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
-            return;
-        }
-        db.close();
-        ;
+
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.println("<i>USE POST INSTEAD.</i>");
     }
 }
 
