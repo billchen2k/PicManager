@@ -41,9 +41,15 @@
                 <script type="text/javascript">var initMessage = "登录失败：用户不存在。";</script>
                 <%
             break;
+            case "registration_success":
+                %>
+                <script type="text/javascript">var initMessage = "注册成功";</script>
+                <%
+            break;
         }
         request.removeAttribute("stat");
     }
+
     else {
         %>
             <script type="text/javascript">
@@ -52,6 +58,9 @@
         <%
     }
  %>
+
+
+
 
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
     <header class="mdui-appbar mdui-appbar-fixed">
@@ -153,7 +162,7 @@
 <%--                            mdui-menu="{target: '#mc-login-menu', position: 'top', covered: true}">更多...--%>
 <%--                    </button>--%>
 <%--                    <ul class="mdui-menu" id="mc-login-menu">--%>
-<%--                        <li class="mdui-menu-item" mdui-dialog="{target: '#dialog-register'}" mdui-dialog-close><a--%>
+<%--                        <li class="mdui-menu-item" mdui-dialog="{target: '#dialog-Register'}" mdui-dialog-close><a--%>
 <%--                                class="mdui-ripple">注册</a></li>--%>
 <%--                    </ul>--%>
                     <button id="button-login" type="submit" class="mdui-btn mdui-btn-raised mdui-color-theme mdui-float-right">登录</button>
@@ -174,37 +183,38 @@
             <div style="margin-top: 100px; color:white">注册</div>
         </div>
         <div class="mdui-dialog-content dialog-login">
+            <form method="post" name="register" action = "/register">
+                <div class="mdui-textfield mdui-textfield-floating-label" >
+                    <label class="mdui-textfield-label">用户名</label>
+                    <input class="mdui-textfield-input" name="name" maxlength="20"  type="text" required="">
+                    <div class="mdui-textfield-error">用户名不能为空</div>
+                </div>
 
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">用户名</label>
-                <input class="mdui-textfield-input" name="name" maxlength="20"  type="text" required="">
-                <div class="mdui-textfield-error">用户名不能为空</div>
-            </div>
+                <div class="mdui-textfield mdui-textfield-floating-label" type="email" required="">
+                    <label class="mdui-textfield-label">邮箱</label>
+                    <input class="mdui-textfield-input" name="email" type="text">
+                    <div class="mdui-textfield-error">邮箱格式错误</div>
 
-            <div class="mdui-textfield mdui-textfield-floating-label" type="email" required="">
-                <label class="mdui-textfield-label">邮箱</label>
-                <input class="mdui-textfield-input" name="name" type="text">
-                <div class="mdui-textfield-error">邮箱格式错误</div>
+                </div>
+                <div class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">密码</label>
+                    <input id="text-reg-password" class="mdui-textfield-input" name="password" type="password"
+                                                                      pattern="^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z]).*$"
+                                                                      required="">
+                    <div class="mdui-textfield-error">密码至少 6 位，且至少包含大小写字母</div>
+                </div>
 
-            </div>
-            <div class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">密码</label>
-                <input id="text-reg-password" class="mdui-textfield-input" name="password" type="password"
-                                                                  pattern="^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z]).*$"
-                                                                  required="">
-                <div class="mdui-textfield-error">密码至少 6 位，且至少包含大小写字母</div>
-            </div>
+                <div id="wrapper-repeatpassword" class="mdui-textfield mdui-textfield-floating-label">
+                    <label class="mdui-textfield-label">再次输入密码</label>
+                    <input id="text-reg-repeatpassword" class="mdui-textfield-input" name="password" type="password">
+                    <div class="mdui-textfield-error">密码不匹配</div>
+                </div>
+                <div class="actions mdui-clearfix">
+                    <a mdui-dialog="{target : '#dialog-login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</a>
+                    <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">注册</button>
 
-            <div id="wrapper-repeatpassword" class="mdui-textfield mdui-textfield-floating-label">
-                <label class="mdui-textfield-label">再次输入密码</label>
-                <input id="text-reg-repeatpassword" class="mdui-textfield-input" name="password" type="password">
-                <div class="mdui-textfield-error">密码不匹配</div>
-            </div>
-            <div class="actions mdui-clearfix">
-                <a mdui-dialog="{target : '#dialog-login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</a>
-                <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">注册</button>
-
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
