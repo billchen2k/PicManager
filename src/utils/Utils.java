@@ -1,8 +1,13 @@
 package utils;
 
+import bean.Asset;
+
 import javax.servlet.http.HttpServletRequest;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Utils {
 	//实用工具类
@@ -41,5 +46,28 @@ public class Utils {
 	public static String getCurrentDateTime(){
 		String currentDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 		return currentDate;
+	}
+
+	public static Asset parseAsset(ResultSet rs) {
+		try {
+			Asset one = new Asset(rs.getInt("assetid"),
+								  rs.getString("assetname"),
+								  rs.getString("assettype").equals("pic") ? 0 : 1,
+								  rs.getString("category"),
+								  rs.getString("url"),
+								  rs.getString("acq_date"),
+								  rs.getString("upload_date"),
+								  rs.getString("uploader_uid"),
+								  rs.getString("last_modified_date"),
+								  rs.getString("scale"),
+								  rs.getString("country"),
+								  rs.getString("location"),
+								  rs.getString("latitude"),
+								  rs.getString("longitude"));
+			return one;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

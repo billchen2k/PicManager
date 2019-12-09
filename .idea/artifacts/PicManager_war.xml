@@ -1,12 +1,9 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="PicManager:war exploded">
-    <output-path>$PROJECT_DIR$/out/artifacts/PicManager_war_exploded</output-path>
-    <root id="root">
-      <element id="javaee-facet-resources" facet="PicManager/web/Web" />
+  <artifact type="war" name="PicManager:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/PicManager_war</output-path>
+    <root id="archive" name="PicManager_war.war">
+      <element id="artifact" artifact-name="PicManager:war exploded" />
       <element id="directory" name="WEB-INF">
-        <element id="directory" name="classes">
-          <element id="module-output" name="PicManager" />
-        </element>
         <element id="directory" name="lib">
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/mysql-connector-java-8.0.18.jar" />
           <element id="file-copy" path="$PROJECT_DIR$/web/WEB-INF/lib/commons-fileupload-1.4.jar" />

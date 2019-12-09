@@ -191,7 +191,7 @@
                     out.println("<tr>");
                 	out.println("<td id=>" + rs.getInt("logid") + "</td>");
                     out.println("<td>" + "" + rs.getString("username") + " (UID:" + rs.getString("uid") + ")" + "</td>");
-                    out.println("<td>" + rs.getString("assetname") + "</td>");
+                    out.println("<td>" + rs.getString("assetname") + (rs.getString("assetid").equals("-1") ? "" : (" (AID:" + rs.getString("assetid") + ")")) + "</td>");
                     out.println("<td>" + typeName + "</td>");
                     out.println("<td>" + rs.getString("date") + "</td>");
                     out.println("<td>" + rs.getString("request_ip") + "</td>");

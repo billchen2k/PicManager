@@ -26,7 +26,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
 </head>
 <%
-    System.out.println(session.getId() + session.getAttribute("logined_uid"));
+    System.out.println(session.getId() + session.getAttribute("logined_uid") + session.getCreationTime());
     if (session.getAttribute("logined_uid") == null) {
     	request.setAttribute("stat", "not_logined");
     	request.getRequestDispatcher("index.jsp").forward(request,response);
@@ -54,7 +54,6 @@
                 class="mdui-icon material-icons">refresh</i></a>
         <a mdui-menu="{target: '#menu-toolbar'}" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '更多'}"><i
                 class="mdui-icon material-icons">more_vert</i></a>
-
         <ul class="mdui-menu" id="menu-toolbar">
             <li class="mdui-menu-item"><a class="mdui-ripple" href="log.jsp">查看日志</a></li>
             <li class="mdui-menu-item" ><a class="mdui-ripple" href="/logout">登出</a></li>
@@ -70,10 +69,10 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
         </a>
-        <li class="mdui-list-item mdui-ripple">
+        <a href="manage" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
             <div class="mdui-list-item-content">管理</div>
-        </li>
+        </a>
         <a href="me.jsp" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">account_circle</i>
             <div class="mdui-list-item-content">我的</div>
@@ -90,9 +89,12 @@
 <div class="mdui-container">
 
     <div class="mdui-row">
-        <div class="mdui-col-xs-12">
+        <div class="mdui-col-sm-8">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2">Explore</div>
             <div class="mdui-typo-subheading-opacity mdui-m-b-2">检索出了 <%= Integer.toString(assetMap.size()) %> 张图片，请选择要浏览的图片。</div>
+        </div>
+        <div class="mdui-col-sm-4">
+
         </div>
     </div>
 
@@ -333,7 +335,9 @@
                                         </button>
                                     </div>
                                     <div class="mdui-col">
-                                        <button onclick="downloadFile('<%=assetMap.get(one).getUrl()%>')"
+                                        <button onclick="
+                                                window.open('/view/downloadfile?assetid=<%=one%>&assetname=<%=assetMap.get(one).getName()%>&url=<%=assetMap.get(one).getUrl()%>');
+                                                downloadFile('<%=assetMap.get(one).getUrl()%>'); "
                                                 class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
                                             <i class="mdui-icon material-icons mdui-icon-left">cloud_download</i>下载
                                         </button>
@@ -372,7 +376,7 @@
                                     <td><%=assetMap.get(one).getLast_modified_date()%></td>
                                 </tr>
                                 <tr>
-                                    <td>上传者 UID</td>
+                                    <td>UID</td>
                                     <td><%=assetMap.get(one).getUploader_uid()%></td>
                                 </tr>
                                 </tbody>
@@ -419,10 +423,7 @@
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        <%
-
-        %>
-        mdui.snackbar("开始下载：" + url.substring(url.lastIndexOf('/') + 1) + "。");
+        mdui.snackbar("正在下载：" + url.substring(url.lastIndexOf('/') + 1) + "。");
     }
 
     function updateDetail(assetid){

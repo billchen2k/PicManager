@@ -25,7 +25,7 @@
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
 
-<%--<%@include file="about.jsp"%>--%>
+
 <header class="mdui-appbar mdui-appbar-fixed">
     <div class="mdui-toolbar mdui-color-theme">
         <a href="javascript:;" mdui-drawer="{target: '#drawer-main', swipe: true}" class="mdui-btn mdui-btn-icon"><i
@@ -84,12 +84,12 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">account_circle</i>
             <div class="mdui-list-item-content">我的</div>
         </a>
+
         <li class="mdui-subheader">关于</li>
-        <li class="mdui-list-item mdui-ripple">
+        <li mdui-dialog="{target: '#dialog-about'}" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">info</i>
             <div class="mdui-list-item-content">关于</div>
         </li>
-
     </ul>
 </div>
 
@@ -159,6 +159,8 @@
 
     </div>
 </div>
+
+<%@include file="about.jsp"%>
 
 </body>
 <script src="js/canvas.js" type="text/javascript"></script>

@@ -50,6 +50,7 @@ public class DatabaseManager {
 		int result = 0;
 		try {
 			result = stmt.executeUpdate(sql);
+			System.out.println("执行成功：" + sql);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("执行失败：" + sql);

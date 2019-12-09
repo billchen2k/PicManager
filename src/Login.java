@@ -47,6 +47,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("logined_user_details", rs);
 				response.sendRedirect("view");
 				String ipAddress = Utils.getRealRemoteIP(request);
+				//写日志
 				String logSQL = "INSERT INTO `picmanager`.`log`(`uid`, `username`,  `assetid`, `assetname`, `type`, `date`, `request_ip`, `notes`) VALUES ('" + rs.getString("uid") +"', '"
 						+  rs.getString("username") + "', '-1', 'N/A', 'login', '" + Utils.getCurrentDateTime() + "', '" + ipAddress + "', NULL);";
 				db.executeUpdate(logSQL);

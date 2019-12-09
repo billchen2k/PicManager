@@ -19,5 +19,6 @@ public class Logout extends HttpServlet {
 		System.out.println(session.getId() + session.getAttribute("logined_uid"));
 		request.setAttribute("stat", "logged_out");
 		request.getRequestDispatcher("index.jsp").forward(request, response);
+		return;
 	}
 }
