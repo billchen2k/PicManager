@@ -46,6 +46,11 @@
                 <script type="text/javascript">var initMessage = "注册成功";</script>
                 <%
             break;
+            case "already_exist":
+                %>
+                <script type="text/javascript">var initMessage = "用户名已存在";</script>
+                <%
+            break;
         }
         request.removeAttribute("stat");
     }
@@ -223,7 +228,13 @@
     $(document).ready(function () {
         if(initMessage != ""){
             mdui.snackbar(initMessage);
+            if(initMessage == "用户名已存在")
+            {
+                new mdui.Dialog("#dialog-register").open();
+            }
+            else
             new mdui.Dialog("#dialog-login").open();
+
         }
     })
     $("#text-reg-repeatpassword").bind("input propertychange", function () {

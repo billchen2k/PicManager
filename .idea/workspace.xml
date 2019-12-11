@@ -26,7 +26,7 @@
     <option name="done" value="true" />
   </component>
   <component name="CoverageViewManager">
-    <option name="myElementSize" value="225" />
+    <option name="myElementSize" value="228" />
   </component>
   <component name="DatabaseView">
     <option name="SHOW_INTERMEDIATE" value="true" />
@@ -200,6 +200,7 @@
       <find>orange</find>
       <find>panel</find>
       <find>当前</find>
+      <find>张</find>
       <find>view.jsp</find>
       <find>chazha</find>
       <find>查找</find>
@@ -393,12 +394,7 @@
     <property name="DatabaseDriversLRU" value="mysql" />
     <property name="JavaScriptWeakerCompletionTypeGuess" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="WebServerToolWindowFactoryState" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.mappings" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.highlight.symlinks" value="true" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.date" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.permissions" value="false" />
-    <property name="WebServerToolWindowPanel.toolwindow.show.size" value="false" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
@@ -442,80 +438,8 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 9.0.24">
-    <configuration name="Remote" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Remote" APPLICATION_SERVER_NAME="Tomcat 9.0.24" ALTERNATIVE_JRE_ENABLED="false">
-      <option name="HOST" value="picmanager.billc.io" />
-      <option name="PORT" value="80" />
-      <option name="LOCAL" value="false" />
-      <option name="OPEN_IN_BROWSER_URL" value="http://picmanager.billc.io:80/PicManager_war_exploded/" />
-      <option name="UPDATING_POLICY" value="hot-swap-classes" />
-      <deployment>
-        <artifact name="PicManager:war exploded">
-          <settings>
-            <option name="CONTEXT_PATH" value="/PicManager_war_exploded" />
-          </settings>
-        </artifact>
-      </deployment>
-      <server-settings>
-        <data>
-          <option name="targets">
-            <list>
-              <WatchedTargetModelImpl>
-                <option name="name" value="CONTEXT_XML" />
-                <option name="transportStagingTarget">
-                  <TransportTarget>
-                    <option name="id" value="6deaf114-5c3c-4d7b-b65d-8b92f6ae967c" />
-                    <id>6deaf114-5c3c-4d7b-b65d-8b92f6ae967c</id>
-                  </TransportTarget>
-                </option>
-                <option name="watchedLocalPath" value="" />
-                <watched-path />
-                <name>CONTEXT_XML</name>
-                <transport-target>
-                  <TransportTarget>
-                    <option name="id" value="6deaf114-5c3c-4d7b-b65d-8b92f6ae967c" />
-                    <id>6deaf114-5c3c-4d7b-b65d-8b92f6ae967c</id>
-                  </TransportTarget>
-                </transport-target>
-              </WatchedTargetModelImpl>
-              <StagingTargetModelImpl>
-                <option name="name" value="STAGING" />
-                <option name="stagingRemotePath" value="/" />
-                <option name="transportStagingTarget">
-                  <TransportTarget>
-                    <option name="id" value="0f252f50-0428-4f40-839a-73270da509f2" />
-                    <id>0f252f50-0428-4f40-839a-73270da509f2</id>
-                  </TransportTarget>
-                </option>
-                <staging-path>/</staging-path>
-                <name>STAGING</name>
-                <transport-target>
-                  <TransportTarget>
-                    <option name="id" value="0f252f50-0428-4f40-839a-73270da509f2" />
-                    <id>0f252f50-0428-4f40-839a-73270da509f2</id>
-                  </TransportTarget>
-                </transport-target>
-              </StagingTargetModelImpl>
-            </list>
-          </option>
-          <option name="transportHostId" value="717ad255-fc73-46a6-9666-082eaae00d59" />
-          <host-id>717ad255-fc73-46a6-9666-082eaae00d59</host-id>
-        </data>
-      </server-settings>
-      <predefined_log_file enabled="true" id="Tomcat" />
-      <predefined_log_file enabled="true" id="TOMCAT_LOCALHOST_LOG_ID" />
-      <RunnerSettings RunnerId="Debug">
-        <option name="DEBUG_PORT" value="50589" />
-        <option name="LOCAL" value="false" />
-      </RunnerSettings>
-      <method v="2">
-        <option name="Make" enabled="true" />
-        <option name="BuildArtifacts" enabled="true">
-          <artifact name="PicManager:war exploded" />
-        </option>
-      </method>
-    </configuration>
-    <configuration name="Tomcat 9.0.24" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.24" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="11">
+  <component name="RunManager">
+    <configuration name="Tomcat 9.0.24" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 9.0.27" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="11">
       <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
       <deployment>
         <artifact name="PicManager:war exploded">
@@ -587,10 +511,6 @@
         </option>
       </method>
     </configuration>
-    <list>
-      <item itemvalue="Tomcat Server.Tomcat 9.0.24" />
-      <item itemvalue="Tomcat Server.Remote" />
-    </list>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -633,7 +553,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575814996851</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="完成注册/登录页面 register 部分，">
+      <created>1575875291296</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1575875291297</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -735,10 +662,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="完成注册/登录页面 login.jsp 的静态部分。" />
     <MESSAGE value="未完成注册/登录页面 registered 部分，" />
-    <option name="LAST_COMMIT_MESSAGE" value="未完成注册/登录页面 registered 部分，" />
+    <MESSAGE value="完成注册/登录页面 register 部分，" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成注册/登录页面 register 部分，" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PicManager$Tomcat_9_0_24.ic" NAME="Tomcat 9.0.24 Coverage Results" MODIFIED="1575874000398" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PicManager$Tomcat_9_0_24.ic" NAME="Tomcat 9.0.24 Coverage Results" MODIFIED="1575875521955" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
   <component name="debuggerHistoryManager">
     <expressions id="evaluateExpression">
@@ -1179,7 +1107,7 @@
       <state key="ArtifactsStructureConfigurable.UI">
         <settings>
           <artifact-editor />
-          <last-edited>PicManager:war</last-edited>
+          <last-edited>PicManager:war exploded</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
