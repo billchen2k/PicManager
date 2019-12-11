@@ -60,8 +60,6 @@
     DatabaseManager db = new DatabaseManager();
     db.getConnection();
     ResultSet rs;
-    rs = db.executeQuery("SELECT * FROM `picmanager`.`log`;");
-    rs.next();
 %>
 
 <div class="mdui-drawer mdui-color-white" id="drawer-main">
@@ -96,15 +94,29 @@
                 张图片。你可以在下面编辑元数据，使用右下角的按钮上传图片。
             </div>
         </div>
+
+        <button mdui-tooltip="{content : '上传新的'}"
+                class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple"><i
+                class=" mdui-icon material-icons">add</i></button>
+
+
         <div class="mdui-col-sm-4">
-            <div class="mdui-row mdui-m-t-5 mdui-p-t-5">
-                <button mdui-tooltip="{content : '上传新的'}"
-                        class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple"><i
-                        class=" mdui-icon material-icons">add</i></button>
-                <button onclick="window.location.href='/log.jsp'"
-                        class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
-                    <i class="mdui-icon material-icons mdui-icon-left">history</i>查看日志
-                </button>
+            <div class="mdui-row mdui-m-t-5 mdui-p-t-2">
+
+                <div class="mdui-row mdui-m-b-2">
+                    <button onclick="window.location.href='/log.jsp'"
+                            class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                        <i class="mdui-icon material-icons mdui-icon-left">history</i>查看日志
+                    </button>
+                </div>
+
+                <div class="mdui-row mdui-m-b-2">
+                    <button onclick="window.location.href='/log.jsp'"
+                            class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                        <i class="mdui-icon material-icons mdui-icon-left">account_circle</i>用户管理
+                    </button>
+                </div>
+
             </div>
 
         </div>
@@ -208,7 +220,7 @@
                         <div class="mdui-panel-item-actions">
                             <button class="mdui-btn mdui-ripple" onclick="window.location.href='/view'">重置
                             </button>
-                            <%--                            <button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>--%>
+                            <%--<button class="mdui-btn mdui-ripple" mdui-panel-item-close>取消</button>--%>
                             <button class="mdui-btn mdui-ripple" type="submit">应用筛选器</button>
                         </div>
                     </form>
@@ -224,6 +236,7 @@
                 <thead>
                 <tr>
                     <th>AID</th>
+                    <th>预览</th>
                     <th>标题</th>
                     <th>分类</th>
                     <th>国家</th>
@@ -238,6 +251,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <img
                 <%
                     for(Integer one: assetMap.keySet()){
                     	String categoryName = "";
@@ -254,7 +268,7 @@
                         }
                         out.println("<tr>");
                     	out.println("<td>"+ assetMap.get(one).getId() +"</td>");
-
+                        out.println("<td><img style='max-height: 30px; max-width: 30px;' src='" + assetMap.get(one).getUrl() + "'></img></td>");
                         out.println("<td>" + assetMap.get(one).getName() + "</td>");
                         out.println("<td>" + categoryName + "</td>");
                         out.println("<td>" + assetMap.get(one).getCountry() + "</td>");
@@ -268,20 +282,132 @@
                         %>
                         <td>
                             <button mdui-tooltip="{content: '编辑'}"class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
-                                    class="mdui-icon material-icons">edit</i></button>
+                                    class="mdui-icon material-icons" mdui-dialog="{target : '#dialog-edit-<%=one%>'}">edit</i></button>
                             <button mdui-tooltip="{content: '删除'}"
                                     class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
-                                    class="mdui-icon material-icons">delete</i></button>
+                                    class="mdui-icon material-icons" onclick="
+                                    mdui.confirm('该操作不可撤销。', '确认删除 <%=assetMap.get(one).getName()%>？', function(){
+                                              mdui.alert('确认删除。<%=assetMap.get(one).getId()%>');});">delete</i></button>
                         </td>
                         <%
                         out.println("</tr>");
-
                     }
                 %>
                 </tbody>
             </table>
         </div>
     </div>
+
+    <%
+        for (Integer one : assetMap.keySet()){
+        	%>
+                <div class="mdui-dialog" style="height: 600px; max-width: 50%;" id="dialog-edit-<%=one%>">
+                    <div class="mdui-col-xs-12 mdui-color-blue mdui-row-gapless">
+                        <button class="mdui-btn mdui-btn-icon mdui-text-color-white close" mdui-dialog-close>
+                            <i class="mdui-icon material-icons">close</i>
+                        </button>
+                    </div>
+                    <div class="mdui-dialog-title mdui-color-blue dialog-login">
+                        <div style="margin-top: 50px; color:white">以 <%=session.getAttribute("logined_username").toString()%> 的身份编辑</div>
+                    </div>
+                    <div class="mdui-container">
+                        <form method="post" name="updateAsset" action="/updateasset">
+                            <div class="mdui-container-fluid">
+                                <div class="mdui-row">
+                                    <div class="mdui-col-sm-4">
+                                        <img width="100%" class="mdui-shadow-3 mdui-m-t-3 mdui-m-r-1" src="<%=assetMap.get(one).getUrl()%>">
+                                    </div>
+                                    <div class="mdui-col-sm-8">
+                                        <div class="mdui-textfield">
+                                            <label class="mdui-textfield-label">标题</label>
+                                            <input required="" name="searchName" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getName()%>"/>
+                                        </div>
+
+                                        <div class="mdui-row">
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <label class="mdui-textfield-label">国家</label>
+                                                    <input name="searchName" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getCountry()%>"/>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <label class="mdui-textfield-label">地区</label>
+                                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                                           value="<%=assetMap.get(one).getLocation()%>"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mdui-row">
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <label class="mdui-textfield-label">经度</label>
+                                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                                           value="<%=assetMap.get(one).getLatitude()%>"/>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <label class="mdui-textfield-label">纬度</label>
+                                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                                           value="<%=assetMap.get(one).getLongtitude()%>"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mdui-row">
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <span>比例尺： </span>
+                                                    <select name="searchScale" class="mdui-select">
+                                                        <option value="1:1" <%
+                                                            if(assetMap.get(one).getScale().equals("1:1"))
+                                                            	out.print("selected=''");%> >1:1</option>
+                                                        <option value="1:10" <%
+                                                            if (assetMap.get(one).getScale().equals("1:10"))
+                                                                out.print("selected=''");%> >1:10</option>
+                                                        <option value="1:100" <%
+                                                            if (assetMap.get(one).getScale().equals("1:100"))
+                                                                out.print("selected=''");%>>1:100</option>
+                                                        <option value="1:1000" <%
+                                                            if (assetMap.get(one).getScale().equals("1:1000"))
+                                                                out.print("selected=''");%>>1:1000</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="mdui-col-xs-6">
+                                                <div class="mdui-textfield">
+                                                    <span>类型： </span>
+                                                    <select name="searchScale" class="mdui-select">
+                                                        <option value="photograph" <%
+                                                            if (assetMap.get(one).getCategory().equals("photograph"))
+                                                                out.print("selected=''");%>>实景摄影</option>
+                                                        <option value="gis" <%
+                                                            if (assetMap.get(one).getCategory().equals("gis"))
+                                                                out.print("selected=''");%>>遥感图像</option>
+                                                        <option value="cloud"  <%
+                                                            if (assetMap.get(one).getCategory().equals("cloud"))
+                                                                out.print("selected=''");%>>卫星云图</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mdui-clearfix mdui-float-right mdui-m-t-3">
+                                    <button class="mdui-btn mdui-ripple mdui-color-blue mdui-text-color-white" mdui-dialog-close>
+                                        取消
+                                    </button>
+                                    <button class="mdui-btn mdui-ripple mdui-color-blue mdui-text-color-white mdui-m-l-2"
+                                            type="submit">更新
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            <%
+        }
+    %>
 
 
 </div>

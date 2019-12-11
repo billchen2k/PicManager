@@ -157,7 +157,6 @@
                     <a mdui-dialog-close mdui-dialog="{target : '#dialog-register'}"
                             class="mdui-btn mdui-btn mdui-color-white mdui-float-left">没有账户？注册
                     </a>
-                    <div class="mdui-spinner mdui-invisible" id="spinner-login"></div>
 <%--                    <button class="mdui-btn mdui-ripple more-option" type="button"--%>
 <%--                            mdui-menu="{target: '#mc-login-menu', position: 'top', covered: true}">更多...--%>
 <%--                    </button>--%>
@@ -182,7 +181,7 @@
         <div class="mdui-dialog-title mdui-color-green dialog-login">
             <div style="margin-top: 100px; color:white">注册</div>
         </div>
-        <div class="mdui-dialog-content dialog-login">
+        <div class="mdui-dialog-content">
             <form method="post" name="register" action = "/register">
                 <div class="mdui-textfield mdui-textfield-floating-label" >
                     <label class="mdui-textfield-label">用户名</label>
@@ -209,7 +208,7 @@
                     <input id="text-reg-repeatpassword" class="mdui-textfield-input" name="password" type="password">
                     <div class="mdui-textfield-error">密码不匹配</div>
                 </div>
-                <div class="actions mdui-clearfix">
+                <div class="mdui-dialog-actions mdui-clearfix">
                     <a mdui-dialog="{target : '#dialog-login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</a>
                     <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">注册</button>
 

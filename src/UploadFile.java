@@ -14,7 +14,6 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 @WebServlet(name = "uploadfile", urlPatterns = "/manage/uploadfile")
-
 public class UploadFile extends HttpServlet {
 	private static final long serialVersionUID = 12431L;
 	// 上传文件存储目录
@@ -29,6 +28,8 @@ public class UploadFile extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
 		// 检测是否为多媒体上传
+		// 跳转到 message.jsp
+		PrintWriter out = response.getWriter();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html");
 		if (!ServletFileUpload.isMultipartContent(request)) {
@@ -80,19 +81,19 @@ public class UploadFile extends HttpServlet {
 						// 保存文件到硬盘
 						item.write(storeFile);
 
-						request.setAttribute("message",
-											 "文件上传成功!");
+						request.setAttribute("upload_stat",
+											 "success");
 					}
 				}
 			}
 		} catch (Exception ex) {
-			request.setAttribute("message",
-								 "错误信息: " + ex.getMessage());
+			request.setAttribute("upload_stat",
+								 "Upload failed. " + ex.getMessage());
+			out.println(request.getAttribute("upload_stat"));
 		}
-		// 跳转到 message.jsp
-		PrintWriter out = response.getWriter();
-		HttpSession session = request.getSession();
 
+		request.getRequestDispatcher("/manage").forward(request, response);
+		HttpSession session = request.getSession();
 		out.println(session.getId());
 		out.println(request.getAttribute("message"));
 		out.println("REALPATH:" + getServletContext().getRealPath("/"));

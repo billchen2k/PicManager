@@ -102,7 +102,7 @@
     <div class="mdui-row">
         <div class="mdui-col-xs-12">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2"><% out.print("你好，" + session.getAttribute("logined_username") + " ！"); %></div>
-            <div class="mdui-typo-subheading-opacity mdui-m-b-2">这是你的UID：<% out.print(session.getAttribute("logined_uid")); %></div>
+            <div class="mdui-typo-subheading-opacity mdui-m-b-2">这是你的UID：<% out.print(session.getAttribute("logined_uid")); %>。</div>
         </div>
     </div>
 

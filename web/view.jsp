@@ -301,9 +301,7 @@
                             }
                         }
                     %>
-
                 </div>
-
             </div>
         </div>
 
@@ -383,10 +381,8 @@
                             </table>
                         </div>
                     <%
-
                 }
             %>
-
         </div>
     </div>
 
@@ -406,8 +402,8 @@
 </body>
 
 <script type="text/javascript">
-    var activeID = null;
 
+    var activeID = null;
     $(document).ready(function () {
         if (initMessage != "") {
             mdui.snackbar(initMessage);
@@ -435,5 +431,6 @@
         $("#detail-" + assetid).removeClass("mdui-hidden");
         activeID = assetid;
     }
+
 </script>
 </html>
