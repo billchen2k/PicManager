@@ -32,6 +32,14 @@
         request.setAttribute("stat", "not_logined");
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
+    if (session.getAttribute("upload_stat") != null){
+    	if(session.getAttribute("upload_stat").equals("success")){
+    		out.print("<script>var initMessage='图片上传成功。'</script>");
+        }
+    	else{
+    		out.print("<script>var initMessage='" + session.getAttribute("upload_stat") + "'</script>");
+        }
+    }
     Map<Integer, Asset> assetMap = (Map<Integer, Asset>)request.getAttribute("assetMap");
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
@@ -95,9 +103,9 @@
             </div>
         </div>
 
-        <button mdui-tooltip="{content : '上传新的'}"
+        <button mdui-tooltip="{content : '上传图片'}"
                 class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple"><i
-                class=" mdui-icon material-icons">add</i></button>
+                class=" mdui-icon material-icons" mdui-dialog="{target: '#dialog-upload'}">add</i></button>
 
 
         <div class="mdui-col-sm-4">
@@ -230,6 +238,101 @@
         </div>
     </div>
 
+    <div class="mdui-dialog" style="height: 600px; max-width: 40%;" id="dialog-upload">
+        <div class="mdui-col-xs-12 mdui-color-purple mdui-row-gapless">
+            <button class="mdui-btn mdui-btn-icon mdui-text-color-white close" mdui-dialog-close>
+                <i class="mdui-icon material-icons">close</i>
+            </button>
+        </div>
+        <div class="mdui-dialog-title mdui-color-purple dialog-login">
+            <div style="margin-top: 50px; color:white">以 <%=session.getAttribute("logined_username").toString()%>
+                的身份上传
+            </div>
+        </div>
+        <div class="mdui-container">
+            <form method="post" name="updateAsset" action="/manage/uploadfile" enctype="multipart/form-data">
+                <div class="mdui-container-fluid">
+                    <div class="mdui-row">
+                        <div class="mdui-col-sm-12">
+                            <div class="mdui-textfield">
+                                <input class="mdui-btn" type="file" name="uploadFile" required="required"/>
+                            </div>
+                            <div class="mdui-textfield">
+                                <label class="mdui-textfield-label">标题</label>
+                                <input required="" name="searchName" class="mdui-textfield-input" type="text"
+                                       value=""/>
+                            </div>
+
+                            <div class="mdui-row">
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <label class="mdui-textfield-label">国家</label>
+                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                               value=""/>
+                                    </div>
+                                </div>
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <label class="mdui-textfield-label">地区</label>
+                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                               value=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mdui-row">
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <label class="mdui-textfield-label">经度</label>
+                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                               value=""/>
+                                    </div>
+                                </div>
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <label class="mdui-textfield-label">纬度</label>
+                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                               value=""/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mdui-row">
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <span>比例尺： </span>
+                                        <select name="searchScale" class="mdui-select">
+                                            <option value="1:1">1:1</option>
+                                            <option value="1:10">1:10</option>
+                                            <option value="1:100">1:100</option>
+                                            <option value="1:1000">1:1000</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="mdui-col-xs-6">
+                                    <div class="mdui-textfield">
+                                        <span>类型： </span>
+                                        <select name="searchScale" class="mdui-select">
+                                            <option value="photograph">实景摄影</option>
+                                            <option value="gis">遥感图像</option>
+                                            <option value="cloud">卫星云图</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mdui-clearfix mdui-float-right mdui-m-t-3">
+                        <button class="mdui-btn mdui-ripple mdui-color-purple mdui-text-color-white" mdui-dialog-close>
+                            取消
+                        </button>
+                        <button class="mdui-btn mdui-ripple mdui-color-purple mdui-text-color-white mdui-m-l-2"
+                                type="submit">上传
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="mdui-row mdui-m-t-2 mdui-m-b-5">
         <div class="mdui-table-fluid mdui-table-hoverable mdui-col-sm-12">
             <table class="mdui-table">
@@ -298,6 +401,7 @@
         </div>
     </div>
 
+
     <%
         for (Integer one : assetMap.keySet()){
         	%>
@@ -311,7 +415,7 @@
                         <div style="margin-top: 50px; color:white">以 <%=session.getAttribute("logined_username").toString()%> 的身份编辑</div>
                     </div>
                     <div class="mdui-container">
-                        <form method="post" name="updateAsset" action="/updateasset">
+                        <form method="post" name="updateAsset" action="/manage/updateasset">
                             <div class="mdui-container-fluid">
                                 <div class="mdui-row">
                                     <div class="mdui-col-sm-4">
@@ -415,6 +519,12 @@
 </body>
 
 <script type="text/javascript">
-
+    $(document).ready(function () {
+        if (initMessage != "") {
+            mdui.snackbar(initMessage);
+            initMessage = "";
+            <%session.removeAttribute("upload_stat");%>
+        }
+    })
 </script>
 </html>

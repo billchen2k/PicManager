@@ -320,18 +320,18 @@
                                     <div class="mdui-card-primary-subtitle"><%=assetMap.get(one).getCountry() + " " + assetMap.get(one).getLocation()%></div>
                                 </div>
                                 <!-- 卡片的按钮 -->
-                                <div class="mdui-card-actions mdui-row-xs-3">
+                                <div class="mdui-card-actions mdui-row-xs-2">
                                     <div class="mdui-col">
                                         <button mdui-dialog="{target: '#dialog-zoom'}"
                                                 class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
                                             <i class="mdui-icon material-icons mdui-icon-left">pageview</i>放大
                                         </button>
                                     </div>
-                                    <div class="mdui-col">
-                                        <button class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
-                                            <i class="mdui-icon material-icons mdui-icon-left">edit</i>编辑
-                                        </button>
-                                    </div>
+<%--                                    <div class="mdui-col">--%>
+<%--                                        <button class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">--%>
+<%--                                            <i class="mdui-icon material-icons mdui-icon-left">edit</i>编辑--%>
+<%--                                        </button>--%>
+<%--                                    </div>--%>
                                     <div class="mdui-col">
                                         <button onclick="
                                                 window.open('/view/downloadfile?assetid=<%=one%>&assetname=<%=assetMap.get(one).getName()%>&url=<%=assetMap.get(one).getUrl()%>');

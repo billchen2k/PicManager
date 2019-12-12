@@ -27,11 +27,10 @@ public class UploadFile extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
+		HttpSession session = request.getSession();
 		// 检测是否为多媒体上传
 		// 跳转到 message.jsp
 		PrintWriter out = response.getWriter();
-		response.setCharacterEncoding("UTF-8");
-		response.setContentType("text/html");
 		if (!ServletFileUpload.isMultipartContent(request)) {
 			// 如果不是则停止
 			PrintWriter writer = response.getWriter();
@@ -39,7 +38,6 @@ public class UploadFile extends HttpServlet {
 			writer.flush();
 			return;
 		}
-
 		// 配置上传参数
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
@@ -53,11 +51,9 @@ public class UploadFile extends HttpServlet {
 		upload.setSizeMax(MAX_REQUEST_SIZE);
 		// 中文处理
 		upload.setHeaderEncoding("UTF-8");
-
 		// 构造临时路径来存储上传的文件
 		// 这个路径相对当前应用的目录
 		String uploadPath = getServletContext().getRealPath("/") + File.separator + UPLOAD_DIRECTORY;
-
 		// 如果目录不存在则创建
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists()) {
@@ -80,26 +76,25 @@ public class UploadFile extends HttpServlet {
 						System.out.println(filePath);
 						// 保存文件到硬盘
 						item.write(storeFile);
-
-						request.setAttribute("upload_stat",
+						session.setAttribute("upload_stat",
 											 "success");
 					}
 				}
 			}
 		} catch (Exception ex) {
-			request.setAttribute("upload_stat",
-								 "Upload failed. " + ex.getMessage());
-			out.println(request.getAttribute("upload_stat"));
+			session.setAttribute("upload_stat",
+								 "Upload Fail:" + ex.getMessage());
+			response.sendRedirect("/manage");
 		}
-
-		request.getRequestDispatcher("/manage").forward(request, response);
-		HttpSession session = request.getSession();
-		out.println(session.getId());
-		out.println(request.getAttribute("message"));
-		out.println("REALPATH:" + getServletContext().getRealPath("/"));
+		response.sendRedirect("/manage");
+		//request.getRequestDispatcher("/manage").forward(request, response);
+		return;
+//		out.println(session.getId());
+//		out.println(request.getAttribute("message"));
+//		out.println("REALPATH:" + getServletContext().getRealPath("/"));
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		doPost(request, response);
 	}
 }
