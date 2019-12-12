@@ -377,7 +377,7 @@
                         out.println("<td>" + assetMap.get(one).getCountry() + "</td>");
                         out.println("<td>" + assetMap.get(one).getLocation() + "</td>");
                         out.println("<td>" + assetMap.get(one).getLatitude() + "</td>");
-                        out.println("<td>" + assetMap.get(one).getLongtitude() + "</td>");
+                        out.println("<td>" + assetMap.get(one).getLongitude() + "</td>");
                         out.println("<td>" + assetMap.get(one).getScale() + "</td>");
                         out.println("<td>" + assetMap.get(one).getUpload_time() + "</td>");
 //                      out.println("<td>" + assetMap.get(one).getLast_modified_date() + "</td>");
@@ -390,7 +390,7 @@
                                     class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
                                     class="mdui-icon material-icons" onclick="
                                     mdui.confirm('该操作不可撤销。', '确认删除 <%=assetMap.get(one).getName()%>？', function(){
-                                              mdui.alert('确认删除。<%=assetMap.get(one).getId()%>');});">delete</i></button>
+                                              mdui.alert('确认删除。<%=assetMap.get(one).getId()%>');});">Delete</i></button>
                         </td>
                         <%
                         out.println("</tr>");
@@ -424,20 +424,20 @@
                                     <div class="mdui-col-sm-8">
                                         <div class="mdui-textfield">
                                             <label class="mdui-textfield-label">标题</label>
-                                            <input required="" name="searchName" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getName()%>"/>
+                                            <input required="" name="assetname" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getName()%>"/>
                                         </div>
 
                                         <div class="mdui-row">
                                             <div class="mdui-col-xs-6">
                                                 <div class="mdui-textfield">
                                                     <label class="mdui-textfield-label">国家</label>
-                                                    <input name="searchName" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getCountry()%>"/>
+                                                    <input name="newCountry" class="mdui-textfield-input" type="text" value="<%=assetMap.get(one).getCountry()%>"/>
                                                 </div>
                                             </div>
                                             <div class="mdui-col-xs-6">
                                                 <div class="mdui-textfield">
                                                     <label class="mdui-textfield-label">地区</label>
-                                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                                    <input name="newLocation" class="mdui-textfield-input" type="text"
                                                            value="<%=assetMap.get(one).getLocation()%>"/>
                                                 </div>
                                             </div>
@@ -446,15 +446,15 @@
                                             <div class="mdui-col-xs-6">
                                                 <div class="mdui-textfield">
                                                     <label class="mdui-textfield-label">经度</label>
-                                                    <input name="searchName" class="mdui-textfield-input" type="text"
+                                                    <input name="newLatitude" class="mdui-textfield-input" type="text"
                                                            value="<%=assetMap.get(one).getLatitude()%>"/>
                                                 </div>
                                             </div>
                                             <div class="mdui-col-xs-6">
                                                 <div class="mdui-textfield">
                                                     <label class="mdui-textfield-label">纬度</label>
-                                                    <input name="searchName" class="mdui-textfield-input" type="text"
-                                                           value="<%=assetMap.get(one).getLongtitude()%>"/>
+                                                    <input name="newLongitude" class="mdui-textfield-input" type="text"
+                                                           value="<%=assetMap.get(one).getLongitude()%>"/>
                                                 </div>
                                             </div>
                                         </div>

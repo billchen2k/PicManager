@@ -14,7 +14,7 @@ public class Asset {
 	private String country = "N/A";
 	private String location = "N/A";
 	private String latitude = "0";
-	private String longtitude = "0";
+	private String longitude = "0";
 
 	public Asset() {
 
@@ -41,7 +41,7 @@ public class Asset {
 		this.country = country;
 		this.location = location;
 		this.latitude = latitude;
-		this.longtitude = longtitude;
+		this.longitude = longtitude;
 	}
 
 	public int getId() {
@@ -88,12 +88,12 @@ public class Asset {
 		this.latitude = latitude;
 	}
 
-	public String getLongtitude() {
-		return longtitude;
+	public String getLongitude() {
+		return longitude;
 	}
 
-	public void setLongtitude(String longtitude) {
-		this.longtitude = longtitude;
+	public void setLongitude(String longtitude) {
+		this.longitude = longtitude;
 	}
 
 	public void setUrl(String url) {
