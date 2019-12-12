@@ -40,6 +40,22 @@
         <url-pattern>/view</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>delete</servlet-name>
+        <servlet-class>Delete</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>delete</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>updateassert</servlet-name>
+        <servlet-class>Updateasset</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>updateassert</servlet-name>
+        <url-pattern>/updateasset</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>downloadfile</servlet-name>
         <servlet-class>DownloadFile</servlet-class>
     </servlet>
