@@ -1,6 +1,7 @@
 package utils;
 
 import bean.Asset;
+import bean.User;
 
 import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
@@ -70,5 +71,23 @@ public class Utils {
 		}
 		return null;
 
-}
+	}
+
+	public static User parseUser(ResultSet rs) {
+		try {
+			User one = new User(rs.getInt("uid"),
+								 rs.getString("username"),
+								 rs.getString("password"),
+								 rs.getString("password_last_changed"),
+								 rs.getString("email"),
+								 rs.getString("registration_date"),
+								 rs.getString("registration_ip"),
+								 rs.getString("role"));
+			return one;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+
+	}
 }

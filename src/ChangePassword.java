@@ -38,9 +38,9 @@ public class ChangePassword extends HttpServlet {
 			rs.next();
 			if (oldPassword.equals(rs.getString("password"))){
 				//密码匹配
-				sqlQ = "UPDATE `user` SET `user`.`password`='" + newPassword + "' WHERE `user`.`uid`=" + currentUID;
-				db.executeUpdate(sqlQ);
+				//sqlQ = "UPDATE `user` SET `user`.`password`='" + newPassword + "' WHERE `user`.`uid`=" + currentUID;
 				sqlQ = "UPDATE `user` SET `user`.`password_last_changed`='" + Utils.getCurrentDateTime() +"' WHERE `user`.`uid`=" + currentUID;
+				db.executeUpdate(sqlQ);
 				request.setAttribute("stat", "change_success");
 				request.getRequestDispatcher("/me.jsp").forward(request, response);
 			}

@@ -36,10 +36,9 @@ public class UpdateAsset extends HttpServlet{
         String latitude = request.getParameter("newLatitude");
         String longitude = request.getParameter("newLongitude");
         try{
-            db.executeUpdate("update asset set assetname='" + name + "', country = '"+ country +"',location = '"+ location +"',latitude = '"+ latitude +"',longitude = '"+ longitude +"' where assetid = '"+ aid +"'");
+            db.executeUpdate("UPDATE asset SET last_modified_date='"+ Utils.getCurrentDateTime() +"', assetname='" + name + "', country = '"+ country +"',location = '"+ location +"',latitude = '"+ latitude +"',longitude = '"+ longitude +"' where assetid = '"+ aid +"'");
             //todo 写日志
 
-            //todo 在数据库中更新修改时间
 
 
             //消息回调
