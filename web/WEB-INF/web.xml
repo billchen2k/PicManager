@@ -40,16 +40,16 @@
         <url-pattern>/view</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>delete</servlet-name>
-        <servlet-class>Delete</servlet-class>
+        <servlet-name>deletefile</servlet-name>
+        <servlet-class>DeleteFile</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>delete</servlet-name>
-        <url-pattern>/delete</url-pattern>
+        <servlet-name>deletefile</servlet-name>
+        <url-pattern>/deletefile</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>updateassert</servlet-name>
-        <servlet-class>Updateasset</servlet-class>
+        <servlet-class>UpdateAsset</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>updateassert</servlet-name>

@@ -9,15 +9,20 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
+import bean.Asset;
+import jdk.jshell.execution.Util;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import utils.DatabaseManager;
+import utils.Utils;
 
 @WebServlet(name = "uploadfile", urlPatterns = "/manage/uploadfile")
 public class UploadFile extends HttpServlet {
+	private DatabaseManager db = new DatabaseManager();
 	private static final long serialVersionUID = 12431L;
 	// 上传文件存储目录
-	private static final String UPLOAD_DIRECTORY = "assets/";
+	private static final String UPLOAD_DIRECTORY = "/assets/";
 	// 上传配置
 	private static final int MEMORY_THRESHOLD = 1024 * 1024 * 32;  // 32MB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 128; // 128MB
@@ -27,6 +32,9 @@ public class UploadFile extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 						  HttpServletResponse response) throws ServletException, IOException {
+		db.getConnection();
+
+		Asset newAsset = new Asset();
 		HttpSession session = request.getSession();
 		// 检测是否为多媒体上传
 		// 跳转到 message.jsp
@@ -50,7 +58,8 @@ public class UploadFile extends HttpServlet {
 		// 设置最大请求值 (包含文件和表单数据)
 		upload.setSizeMax(MAX_REQUEST_SIZE);
 		// 中文处理
-		upload.setHeaderEncoding("UTF-8");
+		//upload.setHeaderEncoding("UTF-8");
+		upload.setHeaderEncoding("ISO8859_1");
 		// 构造临时路径来存储上传的文件
 		// 这个路径相对当前应用的目录
 		String uploadPath = getServletContext().getRealPath("/") + File.separator + UPLOAD_DIRECTORY;
@@ -59,7 +68,8 @@ public class UploadFile extends HttpServlet {
 		if (!uploadDir.exists()) {
 			uploadDir.mkdir();
 		}
-
+		System.out.println("---" + request.getParameter("uploadFile"));
+		System.out.println(request.getParameter("uploadScale"));
 		try {
 			// 解析请求的内容提取文件数据
 			@SuppressWarnings("unchecked")
@@ -76,22 +86,52 @@ public class UploadFile extends HttpServlet {
 						System.out.println(filePath);
 						// 保存文件到硬盘
 						item.write(storeFile);
-						session.setAttribute("upload_stat",
-											 "success");
+						newAsset.setUrl(UPLOAD_DIRECTORY + fileName);
+					}
+					else{
+
+						switch (item.getFieldName()){
+							case "uploadName":
+								newAsset.setName(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadCountry":
+								newAsset.setCountry(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadLocation":
+								newAsset.setLocation(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadLatitude":
+								newAsset.setLatitude(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadLongitude":
+								newAsset.setLongitude(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadScale":
+								newAsset.setScale(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+							case "uploadCategory":
+								newAsset.setCategory(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								break;
+						}
+						System.out.println(item.getFieldName() + ": " + new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
 					}
 				}
+				String sqlQ = "INSERT INTO asset (assetname, assettype, category, url, country, location, latitude, longitude, acq_date, scale, upload_date, last_modified_date, uploader_uid) VALUES" +
+						"('" + newAsset.getName() + "', '" + "pic" + "', '" + newAsset.getCategory() + "', '" + newAsset.getUrl() + "', '" + newAsset.getCountry() + "', '" + newAsset.getLocation() + "', '" + newAsset.getLatitude() + "', '" + newAsset.getLongitude() + "', '" +
+						Utils.getCurrentDateTime() + "', '" + newAsset.getScale() + "', '" + Utils.getCurrentDateTime() + "', '" + Utils.getCurrentDateTime() + "', '" + session.getAttribute("logined_uid") + "');";
+				db.executeUpdate(sqlQ);
+				session.setAttribute("upload_stat","success");
 			}
+
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			session.setAttribute("upload_stat",
-								 "Upload Fail:" + ex.getMessage());
+								 "Upload Fail:" + ex.getStackTrace());
 			response.sendRedirect("/manage");
+			return;
 		}
 		response.sendRedirect("/manage");
-		//request.getRequestDispatcher("/manage").forward(request, response);
 		return;
-//		out.println(session.getId());
-//		out.println(request.getAttribute("message"));
-//		out.println("REALPATH:" + getServletContext().getRealPath("/"));
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

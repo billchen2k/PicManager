@@ -44,7 +44,7 @@
                 class="mdui-icon material-icons">more_vert</i></a>
 
         <ul class="mdui-menu" id="menu-toolbar">
-            <li class="mdui-menu-item"><a class="mdui-ripple">查看日志</a></li>
+            <li mdui-dialog="{target: '#dialog-about'}" class="mdui-menu-item"><a class="mdui-ripple">查看日志</a></li>
             <li class="mdui-menu-item"><a class="mdui-ripple" href="/logout">登出</a></li>
         </ul>
 
@@ -203,5 +203,6 @@
         </div>
     </div>
 </div>
+<%@include file="about.jsp" %>
 </body>
 </html>

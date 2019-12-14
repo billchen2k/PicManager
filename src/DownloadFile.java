@@ -19,9 +19,16 @@ public class DownloadFile extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
 		db.getConnection();
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession();
+		if (session.getAttribute("logined_uid") == null) {
+			request.setAttribute("stat", "not_logined");
+			request.getRequestDispatcher("/index.jsp").forward(request, response);
+			return;
+		}
+
 		String ipAddress = Utils.getRealRemoteIP(request);
 		String logSQL = "INSERT INTO `picmanager`.`log`(`uid`, `username`,  `assetid`, `assetname`, `type`, `date`, `request_ip`, `notes`) VALUES ('" + session.getAttribute("logined_uid") + "', '"
 				+ session.getAttribute("logined_username") + "', '" + request.getParameter("assetid") + "', '" + request.getParameter("assetname") + "', 'download', '" + Utils.getCurrentDateTime() + "', '" + ipAddress + "', NULL);";

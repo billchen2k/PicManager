@@ -355,7 +355,7 @@
                                 </tr>
                                 <tr>
                                     <td>经纬度</td>
-                                    <td><%=assetMap.get(one).getLatitude() + ", " + assetMap.get(one).getLongtitude()%></td>
+                                    <td><%=assetMap.get(one).getLatitude() + ", " + assetMap.get(one).getLongitude()%></td>
                                 </tr>
                                 <tr>
                                     <td>比例尺</td>
@@ -398,7 +398,7 @@
         </div>
     </div>
 </div>
-
+<%@include file="about.jsp" %>
 </body>
 
 <script type="text/javascript">

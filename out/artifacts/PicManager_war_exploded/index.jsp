@@ -100,7 +100,7 @@
                 <div class="mdui-list-item-content">我的</div>
             </a>
             <li class="mdui-subheader">关于</li>
-            <li class="mdui-list-item mdui-ripple">
+            <li mdui-dialog="{target: '#dialog-about'}" class="mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">info</i>
                 <div class="mdui-list-item-content">关于</div>
             </li>
@@ -221,7 +221,7 @@
             </form>
         </div>
     </div>
-
+    <%@include file="about.jsp" %>
 </body>
 
 <script type="text/javascript">

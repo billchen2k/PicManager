@@ -40,6 +40,20 @@
     		out.print("<script>var initMessage='" + session.getAttribute("upload_stat") + "'</script>");
         }
     }
+    if (session.getAttribute("delete_stat") != null) {
+        if (session.getAttribute("delete_stat").equals("success")) {
+            out.print("<script>var initMessage='图片删除成功。'</script>");
+        } else {
+            out.print("<script>var initMessage='" + session.getAttribute("delete_stat") + "'</script>");
+        }
+    }
+    if (session.getAttribute("edit_stat") != null) {
+        if (session.getAttribute("edit_stat").equals("success")) {
+            out.print("<script>var initMessage='图片编辑成功。'</script>");
+        } else {
+            out.print("<script>var initMessage='" + session.getAttribute("edit_stat") + "'</script>");
+        }
+    }
     Map<Integer, Asset> assetMap = (Map<Integer, Asset>)request.getAttribute("assetMap");
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
@@ -85,7 +99,7 @@
             <div class="mdui-list-item-content">我的</div>
         </a>
         <li class="mdui-subheader">关于</li>
-        <li class="mdui-list-item mdui-ripple">
+        <li mdui-dialog="{target: '#dialog-about'}" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">info</i>
             <div class="mdui-list-item-content">关于</div>
         </li>
@@ -102,10 +116,6 @@
                 张图片。你可以在下面编辑元数据，使用右下角的按钮上传图片。
             </div>
         </div>
-
-        <button mdui-tooltip="{content : '上传图片'}"
-                class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple"><i
-                class=" mdui-icon material-icons" mdui-dialog="{target: '#dialog-upload'}">add</i></button>
 
 
         <div class="mdui-col-sm-4">
@@ -250,16 +260,16 @@
             </div>
         </div>
         <div class="mdui-container">
-            <form method="post" name="updateAsset" action="/manage/uploadfile" enctype="multipart/form-data">
+            <form method="post" id="formUpload" action="/manage/uploadfile" enctype="multipart/form-data" >
                 <div class="mdui-container-fluid">
                     <div class="mdui-row">
                         <div class="mdui-col-sm-12">
                             <div class="mdui-textfield">
-                                <input class="mdui-btn" type="file" name="uploadFile" required="required"/>
+                                <input class="mdui-btn" type="file" name="uploadFile" accept="image/gif, image/png, image/jpeg, image.jpg" required="required"/>
                             </div>
                             <div class="mdui-textfield">
                                 <label class="mdui-textfield-label">标题</label>
-                                <input required="" name="searchName" class="mdui-textfield-input" type="text"
+                                <input required="" name="uploadName" class="mdui-textfield-input" type="text"
                                        value=""/>
                             </div>
 
@@ -267,39 +277,55 @@
                                 <div class="mdui-col-xs-6">
                                     <div class="mdui-textfield">
                                         <label class="mdui-textfield-label">国家</label>
-                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                        <input name="uploadCountry" class="mdui-textfield-input" type="text"
                                                value=""/>
                                     </div>
                                 </div>
                                 <div class="mdui-col-xs-6">
                                     <div class="mdui-textfield">
                                         <label class="mdui-textfield-label">地区</label>
-                                        <input name="searchName" class="mdui-textfield-input" type="text"
+                                        <input name="uploadLocation" class="mdui-textfield-input" type="text"
                                                value=""/>
                                     </div>
                                 </div>
                             </div>
                             <div class="mdui-row">
-                                <div class="mdui-col-xs-6">
-                                    <div class="mdui-textfield">
-                                        <label class="mdui-textfield-label">经度</label>
-                                        <input name="searchName" class="mdui-textfield-input" type="text"
-                                               value=""/>
-                                    </div>
+<%--                                <div class="mdui-col-xs-6">--%>
+<%--                                    <div class="mdui-textfield mdui-textfield-floating-label">--%>
+<%--                                        <label class="mdui-textfield-label">经度</label>--%>
+<%--                                        <input name="uploadLatitude" class="mdui-textfield-input" type="text" pattern="^[+-]?(0|([1-9]\d*))(\.\d+)?$"--%>
+<%--                                               value=""/>--%>
+<%--                                        <div class="mdui-textfield-error">仅支持数字和小数点</div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                                <div class="mdui-col-xs-6">--%>
+<%--                                    <div class="mdui-textfield mdui-textfield-floating-label">--%>
+<%--                                        <label class="mdui-textfield-label">纬度</label>--%>
+<%--                                        <input name="uploadLongitude" class="mdui-textfield-input" type="text" pattern="^[+-]?(0|([1-9]\d*))(\.\d+)?$"--%>
+<%--                                               value=""/>--%>
+<%--                                        <div class="mdui-textfield-error">仅支持数字和小数点</div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+                            <div class="mdui-col-xs-6">
+                                <div class="mdui-textfield">
+                                    <label class="mdui-textfield-label">经度</label>
+                                    <input name="uploadLatitude" class="mdui-textfield-input" type="text"
+                                           value=""/>
                                 </div>
-                                <div class="mdui-col-xs-6">
-                                    <div class="mdui-textfield">
-                                        <label class="mdui-textfield-label">纬度</label>
-                                        <input name="searchName" class="mdui-textfield-input" type="text"
-                                               value=""/>
-                                    </div>
+                            </div>
+                            <div class="mdui-col-xs-6">
+                                <div class="mdui-textfield">
+                                    <label class="mdui-textfield-label">纬度</label>
+                                    <input name="uploadLongitude" class="mdui-textfield-input" type="text"
+                                           value=""/>
                                 </div>
+                            </div>
                             </div>
                             <div class="mdui-row">
                                 <div class="mdui-col-xs-6">
                                     <div class="mdui-textfield">
                                         <span>比例尺： </span>
-                                        <select name="searchScale" class="mdui-select">
+                                        <select name="uploadScale" class="mdui-select">
                                             <option value="1:1">1:1</option>
                                             <option value="1:10">1:10</option>
                                             <option value="1:100">1:100</option>
@@ -310,7 +336,7 @@
                                 <div class="mdui-col-xs-6">
                                     <div class="mdui-textfield">
                                         <span>类型： </span>
-                                        <select name="searchScale" class="mdui-select">
+                                        <select name="uploadCategory" class="mdui-select">
                                             <option value="photograph">实景摄影</option>
                                             <option value="gis">遥感图像</option>
                                             <option value="cloud">卫星云图</option>
@@ -325,7 +351,7 @@
                             取消
                         </button>
                         <button class="mdui-btn mdui-ripple mdui-color-purple mdui-text-color-white mdui-m-l-2"
-                                type="submit">上传
+                                 type="submit">上传
                         </button>
                     </div>
                 </div>
@@ -386,11 +412,27 @@
                         <td>
                             <button mdui-tooltip="{content: '编辑'}"class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
                                     class="mdui-icon material-icons" mdui-dialog="{target : '#dialog-edit-<%=one%>'}">edit</i></button>
+<%--                            <button onclick="--%>
+<%--                                    mdui.dialog({--%>
+<%--                                    title: '确认删除 <%=assetMap.get(one).getName()%>？',--%>
+<%--                                    content: '该操作不可撤销。',--%>
+<%--                                    buttons: [--%>
+<%--                                    {--%>
+<%--                                    text: '取消'--%>
+<%--                                    },--%>
+<%--                                    {--%>
+<%--                                    text: '确认',--%>
+<%--                                    onClick: deleteFile(<%=assetMap.get(one).getId()%>)--%>
+<%--                                    }--%>
+<%--                                    ]--%>
+<%--                                    });--%>
+<%--                                    " mdui-tooltip="{content: '删除'}"--%>
+<%--                                    class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i--%>
+<%--                                    class="mdui-icon material-icons" >delete</i></button>--%>
                             <button mdui-tooltip="{content: '删除'}"
-                                    class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
-                                    class="mdui-icon material-icons" onclick="
-                                    mdui.confirm('该操作不可撤销。', '确认删除 <%=assetMap.get(one).getName()%>？', function(){
-                                              mdui.alert('确认删除。<%=assetMap.get(one).getId()%>');});">Delete</i></button>
+                                    class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"
+                                    onclick="deleteFile(<%=assetMap.get(one).getId()%>, '<%=assetMap.get(one).getName()%>')"><i
+                                    class="mdui-icon material-icons" >delete</i></button>
                         </td>
                         <%
                         out.println("</tr>");
@@ -415,7 +457,8 @@
                         <div style="margin-top: 50px; color:white">以 <%=session.getAttribute("logined_username").toString()%> 的身份编辑</div>
                     </div>
                     <div class="mdui-container">
-                        <form method="post" name="updateAsset" action="/manage/updateasset">
+                        <form method="post" name="updateAsset" action="/updateasset">
+                            <input name="assetid" class="mdui-invisible" value="<%=assetMap.get(one).getId()%>" />
                             <div class="mdui-container-fluid">
                                 <div class="mdui-row">
                                     <div class="mdui-col-sm-4">
@@ -513,9 +556,12 @@
         }
     %>
 
+    <button mdui-tooltip="{content : '上传图片'}"
+            class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple"><i
+            class=" mdui-icon material-icons" mdui-dialog="{target: '#dialog-upload'}">add</i></button>
 
 </div>
-
+<%@include file="about.jsp" %>
 </body>
 
 <script type="text/javascript">
@@ -524,7 +570,29 @@
             mdui.snackbar(initMessage);
             initMessage = "";
             <%session.removeAttribute("upload_stat");%>
+            <%session.removeAttribute("delete_stat");%>
+            <%session.removeAttribute("edit_stat");%>
         }
     })
+
+    function deleteFile(aid, name) {
+        console.log("Deleting aid "+ aid);
+        var msg = confirm('确认删除 ' + name + '？该操作无法撤销。');
+        if (msg == true)
+            window.location.href= '/deletefile?aid='+aid;
+    }
+
+    function submitUpload(){
+        var action = "/manage/uploadfile"
+        action += "?uploadName" + $("[name='uploadName']").val();
+        action += "&uploadCountry" + $("[name='uploadCountry']").val();
+        action += "&uploadLocation" + $("[name='uploadLocation']").val();
+        action += "&uploadLongtitude" + $("[name='uploadLongtitude']").val();
+        action += "&uploadLatitude" + $("[name='uploadLatitude']").val();
+        action += "&uploadScale" + $("[name='uploadScale']").val();
+        action += "&uploadCategory" + $("[name='uploadCategory']").val();
+        document.getElementById("#formUpload").action=action;
+        document.getElementById("#formUpload").submit();
+    }
 </script>
 </html>
