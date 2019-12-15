@@ -24,15 +24,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
 </head>
 <%
-    if (session.getAttribute("logined_user_role").equals("user")) {
-        session.setAttribute("to_notify_no_privilege", "1");
-        response.sendRedirect("/view");
-        return;
-    }
     System.out.println(session.getId() + session.getAttribute("logined_uid"));
     if (session.getAttribute("logined_uid") == null) {
         request.setAttribute("stat", "not_logined");
         request.getRequestDispatcher("index.jsp").forward(request, response);
+        return;
+    }
+    if (session.getAttribute("logined_user_role").equals("user")) {
+        session.setAttribute("to_notify_no_privilege", "1");
+        response.sendRedirect("/view");
+        return;
     }
     if(session.getAttribute("update_user_stat") != null) {
         String attrUpdateStat = (String) session.getAttribute("update_user_stat");
@@ -91,6 +92,7 @@
     int logCount = rs.getInt("COUNT(logid)");
     String sqlQ = "SELECT * FROM `picmanager`.`user` ORDER BY uid;";
     Map<Integer, User> userMap = new HashMap<Integer, User>();
+    userMap.clear();
     try{
         rs = db.executeQuery(sqlQ);
         while (rs.next()) {
@@ -131,7 +133,7 @@
     <div class="mdui-row">
         <div class="mdui-col-sm-8">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2">Manage User</div>
-            <div class="mdui-typo-subheading-opacity mdui-m-b-2">你可以在这里管理用户。</div>
+            <div class="mdui-typo-subheading-opacity mdui-m-b-2">您的权限等级为 <%=session.getAttribute("logined_user_role")%>，您可以在这里管理用户。</div>
         </div>
 
         <div class="mdui-col-sm-4">
@@ -178,22 +180,73 @@
                     %>
                         <td><%=userMap.get(one).getUid()%></td>
                         <td><%=userMap.get(one).getUsername()%>
-                            <button mdui-dialog="{target : '#dialog-changeusername-<%=one%>'}" mdui-tooltip="{content: '编辑用户名'}"
-                                    class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
-                                    class="mdui-icon material-icons">edit</i>
-                            </button>
+
+                            <% if (userMap.get(one).getRole().equals("root")) {
+                                if (session.getAttribute("logined_user_role").equals("root")) {
+                                    %>
+                                    <button mdui-dialog="{target : '#dialog-changeusername-<%=one%>'}"
+                                            mdui-tooltip="{content: '编辑用户名'}"
+                                            class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple">
+                                        <i class="mdui-icon material-icons">edit</i>
+                                    </button>
+                                    <%
+                                }
+                            } else {
+                                    %>
+                                    <button mdui-dialog="{target : '#dialog-changeusername-<%=one%>'}"
+                                            mdui-tooltip="{content: '编辑用户名'}"
+                                            class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple">
+                                        <i class="mdui-icon material-icons">edit</i>
+                                    </button>
+                                    <%
+                                }
+                            %>
+
                         </td>
-                        <td><button mdui-dialog="{target: '#dialog-changepassword-<%=one%>'}"class="mdui-btn mdui-color-theme mdui-ripple">修改密码</button></td>
+                        <td>
+                            <% if (userMap.get(one).getRole().equals("root")) {
+                                if (session.getAttribute("logined_user_role").equals("root")) {
+                                    %>
+                                    <button mdui-dialog="{target: '#dialog-changepassword-<%=one%>'}" class="mdui-btn mdui-color-theme mdui-ripple">修改密码</button>
+                                    <%
+                                }
+                                else{
+                                	%>
+                                    <button mdui-tooltip="{content : '无修改权限'}" class="mdui-btn mdui-color-grey mdui-text-color-white mdui-ripple">修改密码</button>
+                                    <%
+                                }
+                            } else {
+                                    %>
+                                    <button mdui-dialog="{target: '#dialog-changepassword-<%=one%>'}" class="mdui-btn mdui-color-theme mdui-ripple">修改密码</button>
+                                    <%
+                                }
+                            %>
+
+                        </td>
                         <td><%=userMap.get(one).getRole()%>
-                            <button mdui-menu="{target: '#menu-role-<%=one%>'}" mdui-tooltip="{content: '编辑角色'}"
-                                    class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"><i
-                                    class="mdui-icon material-icons">edit</i>
-                            </button>
+                            <% if (userMap.get(one).getRole().equals("root")) {
+                            	if (session.getAttribute("logined_user_role").equals("root")) {
+                                    %>
+                                        <button mdui-menu="{target: '#menu-role-<%=one%>'}" mdui-tooltip="{content: '编辑角色'}"
+                                                class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple">
+                                            <i class="mdui-icon material-icons">edit</i>
+                                        </button>
+                                    <%
+                                }
+                            } else {
+                                    %>
+                                        <button mdui-menu="{target: '#menu-role-<%=one%>'}" mdui-tooltip="{content: '编辑角色'}"
+                                                class="mdui-float-right mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple">
+                                            <i class="mdui-icon material-icons">edit</i>
+                                        </button>
+                                    <%
+                                }
+                            %>
                             <ul class="mdui-menu" id="menu-role-<%=one%>">
-                                <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=user">普通用户 (user)</a></li>
-                                <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=admin">管理员 (admin)</a></li>
+                                <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateuser?uid=<%=one%>&type=setRole&newRole=user">普通用户 (user)</a></li>
+                                <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateuser?uid=<%=one%>&type=setRole&newRole=admin">管理员 (admin)</a></li>
                                 <% if (session.getAttribute("logined_user_role").equals("root")) { %>
-                                    <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=root">超级管理员 (root)</a></li>
+                                    <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateuser?uid=<%=one%>&type=setRole&newRole=root">超级管理员 (root)</a></li>
                                 <%}%>
                             </ul>
                         </td>
@@ -229,7 +282,7 @@
                                 <div class="mdui-dialog-content">
                                     请为 <%=userMap.get(one).getUsername()%> 输入新用户名：
                                     <div class="mdui-textfield">
-                                        <input name="newUsername" class="mdui-textfield-input" required="" maxlength="24"/>
+                                        <input name="newUsername" class="mdui-textfield-input" required="" maxlength="24" value="<%=userMap.get(one).getUsername()%>"/>
                                     </div>
                                     <input name="type" class="mdui-hidden" value="setUsername"/>
                                     <input name="uid" class="mdui-hidden" value="<%=one%>"/>
@@ -253,7 +306,7 @@
                                     <div class="mdui-textfield">
                                         <input name="newPassword" class="mdui-textfield-input" placeholder="密码将明文显示" required="" maxlength="24"/>
                                     </div>
-                                    <input name="type" class="mdui-hidden" value=setPassword"/>
+                                    <input name="type" class="mdui-hidden" value="setPassword"/>
                                     <input name="uid" class="mdui-hidden" value="<%=one%>"/>
                                     <div class="mdui-row mdui-m-t-2">
 

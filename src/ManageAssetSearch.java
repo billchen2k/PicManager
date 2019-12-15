@@ -13,8 +13,8 @@ import java.sql.ResultSet;
 import java.util.HashMap;
 import java.util.Map;
 
-@WebServlet(name = "Manage")
-public class Manage extends HttpServlet {
+@WebServlet(name = "ManageAssetSearch")
+public class ManageAssetSearch extends HttpServlet {
 	DatabaseManager db = new DatabaseManager();
 	ResultSet rs;
 
@@ -80,7 +80,7 @@ public class Manage extends HttpServlet {
 			}
 			request.setAttribute("filterNote", filterNote);
 			request.setAttribute("assetMap", assetMap);
-			request.getRequestDispatcher("/manage.jsp").forward(request, response);
+			request.getRequestDispatcher("/manageasset.jsp").forward(request, response);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

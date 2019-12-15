@@ -21,6 +21,7 @@
     if (session.getAttribute("logined_uid") == null) {
         request.setAttribute("stat", "not_logined");
         request.getRequestDispatcher("index.jsp").forward(request, response);
+        return;
     }
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">

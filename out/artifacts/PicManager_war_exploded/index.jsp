@@ -18,6 +18,9 @@
 </head>
 
 <%
+    if (session.getAttribute("logined_uid") != null){
+    	response.sendRedirect("/view");
+    }
     String attrStat = (String)request.getAttribute("stat");
     if (attrStat != null){
     	switch(attrStat){

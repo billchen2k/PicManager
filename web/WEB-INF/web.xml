@@ -48,11 +48,11 @@
         <url-pattern>/deletefile</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>updateassert</servlet-name>
+        <servlet-name>updateasset</servlet-name>
         <servlet-class>UpdateAsset</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>updateassert</servlet-name>
+        <servlet-name>updateasset</servlet-name>
         <url-pattern>/updateasset</url-pattern>
     </servlet-mapping>
     <servlet>
@@ -72,11 +72,11 @@
         <url-pattern>/manage/uploadfile</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>manage</servlet-name>
-        <servlet-class>Manage</servlet-class>
+        <servlet-name>manageassetsearch</servlet-name>
+        <servlet-class>ManageAssetSearch</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>manage</servlet-name>
+        <servlet-name>manageassetsearch</servlet-name>
         <url-pattern>/manage</url-pattern>
     </servlet-mapping>
     <servlet>
@@ -89,7 +89,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>updateuser</servlet-name>
-        <servlet-class>UpdateAsset</servlet-class>
+        <servlet-class>UpdateUser</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>updateuser</servlet-name>

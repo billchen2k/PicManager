@@ -11,9 +11,7 @@ URL： /Logout
 
 参数：无。
 
-
-
-## Manage
+## ManageAssetSearch
 
 根据筛选器提供图片数据，并传递给 manage.jsp 供浏览显示。
 
