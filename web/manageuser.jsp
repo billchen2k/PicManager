@@ -1,9 +1,8 @@
 <%@ page import="utils.DatabaseManager" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.HashMap" %>
 <%@ page import="bean.User" %>
-<%@ page import="java.util.Map" %>
 <%@ page import="utils.Utils" %>
+<%@ page import="java.util.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: billchen
@@ -175,7 +174,15 @@
                 </tr>
                 </thead>
                 <tbody>
-                <% for(Integer one: userMap.keySet()) {
+                <%
+                    List<Integer> keyList = new ArrayList<>(userMap.keySet());
+                    keyList.sort(new Comparator<Integer>() {
+                        @Override
+                        public int compare(Integer o1, Integer o2) {
+                            return o1 >= o2 ? 1 : -1;
+                        }
+                    });
+                    for(Integer one: keyList) {
                     out.println("<tr>");
                     %>
                         <td><%=userMap.get(one).getUid()%></td>

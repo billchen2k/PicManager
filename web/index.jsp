@@ -249,11 +249,11 @@
 
         if($("#text-reg-password").val() != $("#text-reg-repeatpassword").val()){
             $("#wrapper-repeatpassword").addClass("mdui-textfield-invalid");
-            console.log("INVALID");
+            // console.log("INVALID");
         }
         else{
             $("#wrapper-repeatpassword").removeClass("mdui-textfield-invalid");
-            console.log("VALID");
+            // console.log("VALID");
         }
     })
     $("#button-login").onsubmit = function (e) {

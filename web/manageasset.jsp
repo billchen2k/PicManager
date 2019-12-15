@@ -1,9 +1,7 @@
 <%@ page import="bean.Asset" %>
-<%@ page import="java.util.List" %>
-<%@ page import="java.util.LinkedList" %>
 <%@ page import="utils.DatabaseManager" %>
 <%@ page import="java.sql.ResultSet" %>
-<%@ page import="java.util.Map" %>
+<%@ page import="java.util.*" %>
 <%--
   Created by IntelliJ IDEA.
   User: billchen
@@ -111,7 +109,7 @@
     </ul>
 </div>
 
-<div class="mdui-container">
+<div class="mdui-container-fluid mdui-p-x-5">
 
     <div class="mdui-row">
         <div class="mdui-col-xs-8">
@@ -378,15 +376,22 @@
                     <th>纬度</th>
                     <th>比例尺</th>
                     <th>上传时间</th>
-<%--                    <th>修改时间</th>--%>
-                    <th>UID</th>
+                    <th>修改时间</th>
+                    <th>上传者 UID</th>
                     <th>操作</th>
                 </tr>
                 </thead>
                 <tbody>
                 <img
                 <%
-                    for(Integer one: assetMap.keySet()){
+                    List<Integer> keyList = new ArrayList<>(assetMap.keySet());
+                    keyList.sort(new Comparator<Integer>() {
+                        @Override
+                        public int compare(Integer o1, Integer o2) {
+                            return o1 >= o2 ? 1 : -1;
+                        }
+                    });
+                    for(Integer one: keyList){
                     	String categoryName = "";
                     	switch(assetMap.get(one).getCategory()){
                             case "photograph":
@@ -410,7 +415,7 @@
                         out.println("<td>" + assetMap.get(one).getLongitude() + "</td>");
                         out.println("<td>" + assetMap.get(one).getScale() + "</td>");
                         out.println("<td>" + assetMap.get(one).getUpload_time() + "</td>");
-//                      out.println("<td>" + assetMap.get(one).getLast_modified_date() + "</td>");
+                        out.println("<td>" + assetMap.get(one).getLast_modified_date() + "</td>");
                         out.println("<td>" + assetMap.get(one).getUploader_uid() + "</td>");
                         %>
                         <td>
@@ -583,7 +588,7 @@
         console.log("Deleting aid "+ aid);
         var msg = confirm('确认删除 ' + name + '？该操作无法撤销。');
         if (msg == true)
-            window.location.href= '/deletefile?aid='+aid;
+            window.location.href= '/deletefile?aid=' + aid + '&assetname=' + name;
     }
 
     function submitUpload(){

@@ -78,7 +78,7 @@
         </a>
         <% if (!session.getAttribute("logined_user_role").equals("user")) {
         %>
-        <a href="manage" class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <a class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
             <div class="mdui-list-item-content">管理</div>
         </a>

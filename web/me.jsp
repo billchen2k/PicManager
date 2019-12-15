@@ -1,4 +1,7 @@
-<%--
+<%@ page import="utils.DatabaseManager" %>
+<%@ page import="java.sql.ResultSet" %>
+<%@ page import="bean.User" %>
+<%@ page import="utils.Utils" %><%--
   Created by IntelliJ IDEA.
   User: billchen
   Date: 2019-12-03
@@ -23,6 +26,11 @@
         request.getRequestDispatcher("index.jsp").forward(request, response);
         return;
     }
+    DatabaseManager db = new DatabaseManager();
+    db.getConnection();
+    ResultSet rs = db.executeQuery("SELECT * FROM `user` WHERE `user`.`uid`=" + session.getAttribute("logined_uid") + ";");
+    rs.next();
+    User userInfo = Utils.parseUser(rs);
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
 
@@ -109,6 +117,9 @@
         <div class="mdui-col-xs-12">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2"><% out.print("你好，" + session.getAttribute("logined_username") + " ！"); %></div>
             <div class="mdui-typo-subheading-opacity mdui-m-b-2">这是你的UID：<% out.print(session.getAttribute("logined_uid")); %>。</div>
+            <div class="mdui-typo-subheading-opacity mdui-m-b-2">
+                您注册于 <b><%=userInfo.getRegistration_date()%></b>，具有的权限是 <b><%=userInfo.getRole()%></b>。
+            </div>
         </div>
     </div>
 

@@ -7,9 +7,11 @@ import javax.servlet.http.HttpSession;
 import java.io.*;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.ResultSet;
 import java.util.List;
 
 import bean.Asset;
+import com.mysql.cj.protocol.Resultset;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -69,6 +71,8 @@ public class UploadFile extends HttpServlet {
 		}
 		System.out.println("---" + request.getParameter("uploadFile"));
 		System.out.println(request.getParameter("uploadScale"));
+		String newAssetName = "";
+		Integer newAssetID = -1;
 		try {
 			// 解析请求的内容提取文件数据
 			@SuppressWarnings("unchecked")
@@ -91,7 +95,8 @@ public class UploadFile extends HttpServlet {
 
 						switch (item.getFieldName()){
 							case "uploadName":
-								newAsset.setName(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
+								newAssetName = new String(item.getString().getBytes("ISO8859_1"), "utf-8");
+								newAsset.setName(newAssetName);
 								break;
 							case "uploadCountry":
 								newAsset.setCountry(new String(item.getString().getBytes("ISO8859_1"), "utf-8"));
@@ -119,6 +124,13 @@ public class UploadFile extends HttpServlet {
 						"('" + newAsset.getName() + "', '" + "pic" + "', '" + newAsset.getCategory() + "', '" + newAsset.getUrl() + "', '" + newAsset.getCountry() + "', '" + newAsset.getLocation() + "', '" + newAsset.getLatitude() + "', '" + newAsset.getLongitude() + "', '" +
 						Utils.getCurrentDateTime() + "', '" + newAsset.getScale() + "', '" + Utils.getCurrentDateTime() + "', '" + Utils.getCurrentDateTime() + "', '" + session.getAttribute("logined_uid") + "');";
 				db.executeUpdate(sqlQ);
+				ResultSet rs = db.executeQuery("SELECT `assetid` FROM `asset` ORDER BY `assetid` DESC;");
+				rs.next();
+				newAssetID = rs.getInt("assetid");
+				String logSQL = "INSERT INTO `picmanager`.`log`(`uid`, `username`,  `assetid`, `assetname`, `type`, `date`, `request_ip`, `notes`) VALUES ('" + session.getAttribute("logined_uid") + "', '"
+						+ session.getAttribute("logined_username") + "', '" + newAssetID.toString() + "', '" + newAssetName + "', 'upload', '" + Utils.getCurrentDateTime() + "', '" + Utils.getRealRemoteIP(request) + "', NULL);";
+
+				db.executeUpdate(logSQL);
 				session.setAttribute("upload_stat","success");
 			}
 
