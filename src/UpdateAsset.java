@@ -19,7 +19,7 @@ public class UpdateAsset extends HttpServlet{
     DatabaseManager db = new DatabaseManager();
     ResultSet rs ;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        db.getConnection();
         //判断是否登录
         HttpSession session = request.getSession();
         if (session.getAttribute("logined_uid") == null) {
@@ -27,13 +27,6 @@ public class UpdateAsset extends HttpServlet{
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
-        //权限管理
-        if (session.getAttribute("logined_user_role").equals("user")) {
-            session.setAttribute("to_notify_no_privilege", "1");
-            response.sendRedirect("/view");
-            return;
-        }
-        db.getConnection();
         //设置编码
         request.setCharacterEncoding("UTF-8");
         String aid = request.getParameter("assetid");
@@ -43,9 +36,12 @@ public class UpdateAsset extends HttpServlet{
         String latitude = request.getParameter("newLatitude");
         String longitude = request.getParameter("newLongitude");
         try{
-            db.executeUpdate("UPDATE asset SET last_modified_date='"+ Utils.getCurrentDateTime() +"', assetname='" + name + "', country = '"+ country +"',location = '"+ location +"',latitude = '"+ latitude +"',longitude = '"+ longitude +"' where assetid = '"+ aid +"'");
-            //todo 写日志
-
+            db.executeUpdate("UPDATE asset SET last_modified_date='"+ Utils.getCurrentDateTime() +"', assetname='" + name + "', country = '"+ country +"',location = '"+ location +"',latitude = '"+ latitude +"',longitude = '"+ longitude +"' where assetid = '"+ aid +"';");
+            //日志
+            String ipAddress = Utils.getRealRemoteIP(request);
+            String logSQL = "INSERT INTO `picmanager`.`log`(`uid`, `username`,  `assetid`, `assetname`, `type`, `date`, `request_ip`, `notes`) VALUES ('" + session.getAttribute("logined_uid") + "', '"
+                    + session.getAttribute("logined_username") + "', '" + request.getParameter("assetid") + "', '" + request.getParameter("assetname") + "', 'modify', '" + Utils.getCurrentDateTime() + "', '" + ipAddress + "', NULL);";
+            db.executeUpdate(logSQL);
 
 
             //消息回调
