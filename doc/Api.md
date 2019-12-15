@@ -1,4 +1,4 @@
-# PicManager (J2EE 项目) 实践后端文档
+# PicManager (J2EE 项目) 后端文档
 
 
 ## Logout
@@ -10,6 +10,8 @@
 URL： /Logout
 
 参数：无。
+
+
 
 ## Manage
 

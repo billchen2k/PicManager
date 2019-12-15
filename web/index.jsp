@@ -96,10 +96,10 @@
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
                 <div class="mdui-list-item-content">浏览</div>
             </a>
-            <li class="mdui-list-item mdui-ripple">
-                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
-                <div class="mdui-list-item-content">管理</div>
-            </li>
+<%--            <li class="mdui-list-item mdui-ripple">--%>
+<%--                <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>--%>
+<%--                <div class="mdui-list-item-content">管理</div>--%>
+<%--            </li>--%>
             <a href="me.jsp" class="mdui-list-item mdui-ripple">
                 <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">account_circle</i>
                 <div class="mdui-list-item-content">我的</div>

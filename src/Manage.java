@@ -25,7 +25,6 @@ public class Manage extends HttpServlet {
 	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		db.getConnection();
 		request.setCharacterEncoding("UTF-8");
 		HttpSession session = request.getSession();
 		if (session.getAttribute("logined_uid") == null) {
@@ -33,6 +32,12 @@ public class Manage extends HttpServlet {
 			request.getRequestDispatcher("/index.jsp").forward(request, response);
 			return;
 		}
+		if(session.getAttribute("logined_user_role").equals("user")){
+			session.setAttribute("to_notify_no_privilege", "1");
+			response.sendRedirect("/view");
+			return;
+		}
+		db.getConnection();
 		String sqlQ = "SELECT * FROM `asset`";
 		String filterNote = "";
 		String s = request.getParameter("searchName");

@@ -15,7 +15,7 @@
 
 <html>
 <head>
-    <title>管理 - PicManager</title>
+    <title>图片管理 - PicManager</title>
     <link rel="stylesheet" href="css/mdui.min.css">
     <link rel="stylesheet" href="css/pm-style.css">
     <script src="js/mdui.min.js" type="text/javascript"></script>
@@ -28,6 +28,11 @@
 </head>
 <%
     System.out.println(session.getId() + session.getAttribute("logined_uid"));
+    if (session.getAttribute("logined_user_role").equals("user")) {
+        session.setAttribute("to_notify_no_privilege", "1");
+        response.sendRedirect("/view");
+        return;
+    }
     if (session.getAttribute("logined_uid") == null) {
         request.setAttribute("stat", "not_logined");
         request.getRequestDispatcher("index.jsp").forward(request, response);

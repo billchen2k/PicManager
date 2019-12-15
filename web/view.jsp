@@ -39,6 +39,12 @@
             session.removeAttribute("to_notify_success");
         }
     }
+    if(session.getAttribute("to_notify_no_privilege") != null){
+%>
+<script type="text/javascript">var initMessage = "您没有权限管理资源和用户。";</script>
+<%
+        session.removeAttribute("to_notify_no_privilege");
+    }
     HashMap<Integer, Asset> assetMap = (HashMap<Integer, Asset>)request.getAttribute("assetMap");
 %>
 <body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
@@ -69,10 +75,15 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
         </a>
-        <a href="manage" class="mdui-list-item mdui-ripple">
-            <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
-            <div class="mdui-list-item-content">管理</div>
-        </a>
+        <% if (!session.getAttribute("logined_user_role").equals("user")){
+        	%>
+                <a href="manage" class="mdui-list-item mdui-ripple">
+                    <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
+                    <div class="mdui-list-item-content">管理</div>
+                </a>
+            <%
+        }%>
+
         <a href="me.jsp" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">account_circle</i>
             <div class="mdui-list-item-content">我的</div>
@@ -374,7 +385,7 @@
                                     <td><%=assetMap.get(one).getLast_modified_date()%></td>
                                 </tr>
                                 <tr>
-                                    <td>UID</td>
+                                    <td>上传者 UID</td>
                                     <td><%=assetMap.get(one).getUploader_uid()%></td>
                                 </tr>
                                 </tbody>

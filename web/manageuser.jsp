@@ -24,6 +24,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
 </head>
 <%
+    if (session.getAttribute("logined_user_role").equals("user")) {
+        session.setAttribute("to_notify_no_privilege", "1");
+        response.sendRedirect("/view");
+        return;
+    }
     System.out.println(session.getId() + session.getAttribute("logined_uid"));
     if (session.getAttribute("logined_uid") == null) {
         request.setAttribute("stat", "not_logined");
@@ -187,18 +192,35 @@
                             <ul class="mdui-menu" id="menu-role-<%=one%>">
                                 <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=user">普通用户 (user)</a></li>
                                 <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=admin">管理员 (admin)</a></li>
-                                <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=root">超级管理员 (root)</a></li>
+                                <% if (session.getAttribute("logined_user_role").equals("root")) { %>
+                                    <li class="mdui-menu-item"><a class="mdui-ripple" href="/updateUser?uid=<%=one%>&type=setRole&newRole=root">超级管理员 (root)</a></li>
+                                <%}%>
                             </ul>
                         </td>
                         <td><%=userMap.get(one).getPassword_last_changed() == null ? "从未修改" : userMap.get(one).getPassword_last_changed()%></td>
                         <td><%=userMap.get(one).getRegistration_date()%></td>
                         <td><%=userMap.get(one).getRegistration_ip()%></td>
                         <td>
-                            <button mdui-tooltip="{content: '删除'}"
-                                    class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"
-                                    onclick="deleteUser(<%=userMap.get(one).getUid()%>, '<%=userMap.get(one).getUsername()%>')">
-                                <i
-                                        class="mdui-icon material-icons">delete</i></button>
+                            <% if (userMap.get(one).getRole().equals("root")) {
+                            	if (session.getAttribute("logined_user_role").equals("root")){
+                                    %>
+                                    <button mdui-tooltip="{content: '删除'}"
+                                            class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"
+                                            onclick="deleteUser(<%=userMap.get(one).getUid()%>, '<%=userMap.get(one).getUsername()%>')">
+                                        <i class="mdui-icon material-icons">delete</i></button>
+                                    <%
+                                }
+                            }
+                            else{
+                                    %>
+                                    <button mdui-tooltip="{content: '删除'}"
+                                            class="mdui-btn mdui-btn-icon mdui-btn-dense mdui-color-theme mdui-ripple"
+                                            onclick="deleteUser(<%=userMap.get(one).getUid()%>, '<%=userMap.get(one).getUsername()%>')">
+                                        <i class="mdui-icon material-icons">delete</i></button>
+                                    <%
+                                }
+                            %>
+
                         </td>
 
 

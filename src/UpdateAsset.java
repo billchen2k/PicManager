@@ -19,7 +19,7 @@ public class UpdateAsset extends HttpServlet{
     DatabaseManager db = new DatabaseManager();
     ResultSet rs ;
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        db.getConnection();
+
         //判断是否登录
         HttpSession session = request.getSession();
         if (session.getAttribute("logined_uid") == null) {
@@ -27,6 +27,13 @@ public class UpdateAsset extends HttpServlet{
             request.getRequestDispatcher("/index.jsp").forward(request, response);
             return;
         }
+        //权限管理
+        if (session.getAttribute("logined_user_role").equals("user")) {
+            session.setAttribute("to_notify_no_privilege", "1");
+            response.sendRedirect("/view");
+            return;
+        }
+        db.getConnection();
         //设置编码
         request.setCharacterEncoding("UTF-8");
         String aid = request.getParameter("assetid");

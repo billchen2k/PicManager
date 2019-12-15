@@ -14,7 +14,7 @@
 
 <html>
 <head>
-    <title>查看日志 - PicManager</title>
+    <title>日志 - PicManager</title>
     <link rel="stylesheet" href="css/mdui.min.css">
     <link rel="stylesheet" href="css/pm-style.css">
     <script src="js/mdui.min.js" type="text/javascript"></script>
@@ -76,16 +76,21 @@
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-blue">image</i>
             <div class="mdui-list-item-content">浏览</div>
         </a>
-        <li class="mdui-list-item mdui-ripple mdui-list-item-active">
+        <% if (!session.getAttribute("logined_user_role").equals("user")) {
+        %>
+        <a href="manage" class="mdui-list-item mdui-ripple mdui-list-item-active">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-deep-orange">settings</i>
             <div class="mdui-list-item-content">管理</div>
-        </li>
+        </a>
+        <%
+            }%>
+
         <a href="me.jsp" class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-green">account_circle</i>
             <div class="mdui-list-item-content">我的</div>
         </a>
         <li class="mdui-subheader">关于</li>
-        <li class="mdui-list-item mdui-ripple">
+        <li mdui-dialog="{target: '#'}"class="mdui-list-item mdui-ripple">
             <i class="mdui-list-item-icon mdui-icon material-icons mdui-text-color-purple">info</i>
             <div class="mdui-list-item-content">关于</div>
         </li>
