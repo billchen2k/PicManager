@@ -5,3 +5,7 @@
 服务器地址: picmanager.billc.io
 
 端口：3306
+
+## 表结构
+
+### asset 表

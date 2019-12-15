@@ -45,6 +45,7 @@ public class Login extends HttpServlet {
 				session.setAttribute("logined_uid", rs.getString("uid"));
 				session.setAttribute("logined_username", rs.getString("username"));
 				session.setAttribute("logined_user_details", rs);
+				session.setAttribute("logined_user_role", rs.getString("role"));
 				response.sendRedirect("view");
 				String ipAddress = Utils.getRealRemoteIP(request);
 				//写日志
@@ -63,6 +64,8 @@ public class Login extends HttpServlet {
 		}
 		catch (Exception e){
 			e.printStackTrace();
+			request.setAttribute("stat", "database_error");
+			request.getRequestDispatcher("index.jsp").forward(request, response);
 		}
 		//request.setAttribute("stat", "wrong_password");
 

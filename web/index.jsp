@@ -51,6 +51,11 @@
                 <script type="text/javascript">var initMessage = "用户名已存在";</script>
                 <%
             break;
+            case "database_error":
+                %>
+                <script type="text/javascript">var initMessage = "无法连接到数据库";</script>
+                <%
+            break;
         }
         request.removeAttribute("stat");
     }
@@ -190,7 +195,7 @@
             <form method="post" name="register" action = "/register">
                 <div class="mdui-textfield mdui-textfield-floating-label" >
                     <label class="mdui-textfield-label">用户名</label>
-                    <input class="mdui-textfield-input" name="name" maxlength="20"  type="text" required="">
+                    <input class="mdui-textfield-input" name="name" maxlength="24"  type="text" required="">
                     <div class="mdui-textfield-error">用户名不能为空</div>
                 </div>
 
@@ -204,7 +209,7 @@
                     <label class="mdui-textfield-label">密码</label>
                     <input id="text-reg-password" class="mdui-textfield-input" name="password" type="password"
                                                                       pattern="^.*(?=.{6,})(?=.*[a-z])(?=.*[A-Z]).*$"
-                                                                      required="">
+                                                                      required="" maxlength="24">
                     <div class="mdui-textfield-error">密码至少 6 位，且至少包含大小写字母</div>
                 </div>
 

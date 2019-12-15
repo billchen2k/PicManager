@@ -44,7 +44,7 @@
                 class="mdui-icon material-icons">more_vert</i></a>
 
         <ul class="mdui-menu" id="menu-toolbar">
-            <li mdui-dialog="{target: '#dialog-about'}" class="mdui-menu-item"><a class="mdui-ripple">查看日志</a></li>
+            <li class="mdui-menu-item"><a class="mdui-ripple" href="/log.jsp">查看日志</a></li>
             <li class="mdui-menu-item"><a class="mdui-ripple" href="/logout">登出</a></li>
         </ul>
 
@@ -96,9 +96,37 @@
 <div class="mdui-container">
 
     <div class="mdui-row">
-        <div class="mdui-col-xs-12">
+        <div class="mdui-col-xs-8">
             <div class="mdui-typo-display-3 mdui-m-t-5 mdui-m-b-2">Log</div>
             <div class="mdui-typo-subheading-opacity mdui-m-b-2">在这里查看日志。将会显示最近 1000 条日志。</div>
+        </div>
+
+        <div class="mdui-col-sm-4">
+            <div class="mdui-row mdui-m-t-5 mdui-p-t-2">
+
+                <% if (session.getAttribute("logined_user_role").equals("admin") || session.getAttribute("logined_user_role").equals("root"))
+                    {
+                %>
+                    <div class="mdui-row mdui-m-b-2">
+                        <button onclick="window.location.href='/manage'"
+                                class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                            <i class="mdui-icon material-icons mdui-icon-left">image</i>图片管理
+                        </button>
+                    </div>
+
+                    <div class="mdui-row mdui-m-b-2">
+                        <button onclick="window.location.href='/manageuser.jsp'"
+                                class="mdui-btn mdui-ripple mdui-color-theme mdui-btn-block">
+                            <i class="mdui-icon material-icons mdui-icon-left">account_circle</i>用户管理
+                        </button>
+                    </div>
+                <%
+                    }
+                %>
+
+
+            </div>
+
         </div>
     </div>
 

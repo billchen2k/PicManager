@@ -30,21 +30,33 @@ public class Register extends HttpServlet {
         String date = Utils.getCurrentDateTime();
         String ip = Utils.getRealRemoteIP(request);
         password = Encrypt.SHA1(password);
-         db.getConnection();
+        HttpSession session = request.getSession();
+        if (session.getAttribute("logied_uid") != null){
+            // 已登录账号
+            response.sendRedirect("/view.jsp");
+            return;
+        }
+        db.getConnection();
         try {
             rs = db.executeQuery("select * from user where username = '"+name+"';");
-            if(!rs.next())
-            {
-                db.executeUpdate("insert into user(username,password,email,registration_date,registration_ip)values ('" + name + "','" + password + "','"+ email +"','"+ date +"','"+ip+"');");
+            if(!rs.next()) {
+                db.executeUpdate("insert into user(username,password,email,registration_date,registration_ip,role)values ('" + name + "','" + password + "','"+ email +"','"+ date +"','"+ip+"', 'user');");
+                //从管理界面手动创建
+                if(request.getParameter("isFromManage") != null){
+                    session.setAttribute("update_user_stat", "添加成功");
+                    response.sendRedirect("/manageuser.jsp");
+                }
                 request.setAttribute("stat", "registration_success");
                 request.getRequestDispatcher("index.jsp").forward(request,response);
             }
-            else
-            {
+            else {
+                if (request.getParameter("isFromManage") != null) {
+                    session.setAttribute("update_user_stat", "无法添加：用户名已存在。");
+                    response.sendRedirect("/manageuser.jsp");
+                }
                 request.setAttribute("stat","already_exist");
                 request.getRequestDispatcher("index.jsp").forward(request,response);
             }
-
 
         } catch (Exception e) {
             e.printStackTrace();

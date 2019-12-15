@@ -7,8 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Utils {
 	//实用工具类
@@ -75,14 +73,15 @@ public class Utils {
 
 	public static User parseUser(ResultSet rs) {
 		try {
+			System.out.println("Parsing User...");
 			User one = new User(rs.getInt("uid"),
 								 rs.getString("username"),
 								 rs.getString("password"),
-								 rs.getString("password_last_changed"),
-								 rs.getString("email"),
-								 rs.getString("registration_date"),
-								 rs.getString("registration_ip"),
-								 rs.getString("role"));
+								rs.getString("email"),
+								rs.getString("registration_date"),
+								rs.getString("registration_ip"),
+								rs.getString("role"),
+								 rs.getString("password_last_changed"));
 			return one;
 		} catch (Exception e) {
 			e.printStackTrace();
