@@ -1,3 +1,5 @@
+import utils.Utils;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +20,7 @@ public class Logout extends HttpServlet {
 		session.removeAttribute("logined_uid");
 		System.out.println(session.getId() + session.getAttribute("logined_uid"));
 		request.setAttribute("stat", "logged_out");
+		Utils.cleanCookie(request, response);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 		return;
 	}

@@ -24,7 +24,7 @@ URL： /Logout
 
 方法：Post
 
-URL：/UpdateUser
+URL：/updateuser
 
 参数 | 合法值 | 备注
 ---|---|---

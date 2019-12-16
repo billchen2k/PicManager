@@ -3,7 +3,11 @@ package utils;
 import bean.Asset;
 import bean.User;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -88,5 +92,16 @@ public class Utils {
 		}
 		return null;
 
+	}
+
+	public static void cleanCookie(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		Cookie voidIdentifier = new Cookie("identifier", null);
+		voidIdentifier.setPath("/");
+		voidIdentifier.setMaxAge(0);
+		Cookie voidPassword = new Cookie("password", null);
+		voidPassword.setPath("/");
+		voidPassword.setMaxAge(0);
+		response.addCookie(voidIdentifier);
+		response.addCookie(voidPassword);
 	}
 }

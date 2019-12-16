@@ -21,6 +21,27 @@
     if (session.getAttribute("logined_uid") != null){
     	response.sendRedirect("/view");
     }
+    Cookie cookies[] = request.getCookies();
+    String rememberedIdentifier = "";
+    String rememberedPassword = "";
+    if (cookies != null) {
+        for (Cookie one : cookies) {
+            if (one.getName().equals("identifier")) {
+                rememberedIdentifier = one.getValue();
+            }
+            if (one.getName().equals("password")) {
+                rememberedPassword = one.getValue();
+            }
+        }
+        if (!rememberedIdentifier.equals("")){
+        	//有效 Cookie
+            request.setAttribute("AutoLogin", true);
+            request.getRequestDispatcher("/login").forward(request, response);
+        }
+
+    }
+
+    System.out.println(rememberedIdentifier + rememberedPassword);
     String attrStat = (String)request.getAttribute("stat");
     if (attrStat != null){
     	switch(attrStat){
@@ -166,6 +187,13 @@
                     <input class="mdui-textfield-input" name="password" type="password" required="">
                     <div class="mdui-textfield-error">密码不能为空</div>
                 </div>
+                <div class="mdui-row">
+                    <label class="mdui-checkbox mdui-m-l-1">
+                        <input type="checkbox" name="ifRememberPassword"/>
+                        <i class="mdui-checkbox-icon"></i> 3 天内记住密码
+                    </label>
+                </div>
+
                 <div class="actions mdui-clearfix">
                     <a mdui-dialog-close mdui-dialog="{target : '#dialog-register'}"
                             class="mdui-btn mdui-btn mdui-color-white mdui-float-left">没有账户？注册
@@ -221,6 +249,7 @@
                     <input id="text-reg-repeatpassword" class="mdui-textfield-input" name="password" type="password">
                     <div class="mdui-textfield-error">密码不匹配</div>
                 </div>
+
                 <div class="mdui-dialog-actions mdui-clearfix">
                     <a mdui-dialog="{target : '#dialog-login'}" mdui-dialog-close class="mdui-btn mdui-btn mdui-color-white mdui-float-left">已有账户？登录</a>
                     <button type="submit" class="mdui-btn mdui-btn-raised mdui-color-green mdui-text-color-white mdui-float-right">注册</button>
@@ -249,11 +278,11 @@
 
         if($("#text-reg-password").val() != $("#text-reg-repeatpassword").val()){
             $("#wrapper-repeatpassword").addClass("mdui-textfield-invalid");
-            console.log("INVALID");
+            // console.log("INVALID");
         }
         else{
             $("#wrapper-repeatpassword").removeClass("mdui-textfield-invalid");
-            console.log("VALID");
+            // console.log("VALID");
         }
     })
     $("#button-login").onsubmit = function (e) {
