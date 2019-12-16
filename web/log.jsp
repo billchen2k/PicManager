@@ -3,6 +3,7 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="utils.DatabaseManager" %>
 <%@ page import="java.sql.ResultSet" %>
+<%@ page import="utils.Config" %>
 <%--
   Created by IntelliJ IDEA.
   User: billchen
@@ -29,7 +30,7 @@
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 %>
-<body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+<body class="<%=Config.THEME_PRIMARY%> <%=Config.THEME_ACCENT%> mdui-drawer-body-left mdui-appbar-with-toolbar">
 
 <%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">

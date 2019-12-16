@@ -3,6 +3,7 @@
 <%@ page import="bean.User" %>
 <%@ page import="utils.Utils" %>
 <%@ page import="java.util.*" %>
+<%@ page import="utils.Config" %>
 <%--
   Created by IntelliJ IDEA.
   User: billchen
@@ -53,7 +54,7 @@
 
     }
 %>
-<body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+<body class="<%=Config.THEME_PRIMARY%> <%=Config.THEME_ACCENT%> mdui-drawer-body-left mdui-appbar-with-toolbar">
 
 <%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">

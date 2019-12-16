@@ -2,6 +2,7 @@
 <%@ page import="utils.DatabaseManager" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="java.util.*" %>
+<%@ page import="utils.Config" %>
 <%--
   Created by IntelliJ IDEA.
   User: billchen
@@ -59,7 +60,7 @@
     }
     Map<Integer, Asset> assetMap = (Map<Integer, Asset>)request.getAttribute("assetMap");
 %>
-<body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+<body class="<%=Config.THEME_PRIMARY%> <%=Config.THEME_ACCENT%> mdui-drawer-body-left mdui-appbar-with-toolbar">
 
 <%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">

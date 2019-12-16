@@ -3,7 +3,8 @@
 <%@ page import="java.util.LinkedList" %>
 <%@ page import="java.util.HashMap" %>
 <%@ page import="utils.DatabaseManager" %>
-<%@ page import="utils.Utils" %><%--
+<%@ page import="utils.Utils" %>
+<%@ page import="utils.Config" %><%--
   Created by IntelliJ IDEA.
   User: billchen
   Date: 2019-12-03
@@ -47,7 +48,7 @@
     }
     HashMap<Integer, Asset> assetMap = (HashMap<Integer, Asset>)request.getAttribute("assetMap");
 %>
-<body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+<body class="<%=Config.THEME_PRIMARY%> <%=Config.THEME_ACCENT%> mdui-drawer-body-left mdui-appbar-with-toolbar">
 
 <%--<%@include file="about.jsp"%>--%>
 <header class="mdui-appbar mdui-appbar-fixed">

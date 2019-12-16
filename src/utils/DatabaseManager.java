@@ -1,12 +1,9 @@
 package utils;
-import javax.sql.*;
 import java.sql.*;
 
 public class DatabaseManager {
-	static final String DB_URL = "jdbc:mysql://picmanager.billc.io:3306/picmanager";
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String USER = "root";
-	static final String PASS = "j2ee4.0";
+
 
 	private Connection conn = null;
 	private Statement stmt = null;
@@ -23,7 +20,7 @@ public class DatabaseManager {
 
 	public Connection getConnection() {
 		try {
-			conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			conn = DriverManager.getConnection(Config.MYSQL_URL, Config.MYSQL_USER, Config.MYSQL_PASS);
 			stmt = conn.createStatement();
 
 		} catch (SQLException e) {

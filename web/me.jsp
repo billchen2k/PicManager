@@ -1,7 +1,8 @@
 <%@ page import="utils.DatabaseManager" %>
 <%@ page import="java.sql.ResultSet" %>
 <%@ page import="bean.User" %>
-<%@ page import="utils.Utils" %><%--
+<%@ page import="utils.Utils" %>
+<%@ page import="utils.Config" %><%--
   Created by IntelliJ IDEA.
   User: billchen
   Date: 2019-12-03
@@ -32,7 +33,7 @@
     rs.next();
     User userInfo = Utils.parseUser(rs);
 %>
-<body class="mdui-theme-primary-teal mdui-theme-accent-pink mdui-drawer-body-left mdui-appbar-with-toolbar">
+<body class="<%=Config.THEME_PRIMARY%> <%=Config.THEME_ACCENT%> mdui-drawer-body-left mdui-appbar-with-toolbar">
 
 
 <header class="mdui-appbar mdui-appbar-fixed">

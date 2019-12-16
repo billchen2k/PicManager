@@ -2,11 +2,28 @@
 
 ## 跳转逻辑
 
+左侧导航栏可以在 view, manageasset.jsp, me.jsp 之间互相跳转。
+
 ```mermaid
+graph TD
+in(index.jsp)--> |已登录则自动跳转| vs[ViewSearch]
+vs--> vi(view.jsp)
+in-->|管理员有权限访问|mas[ManageAssetSearch]-->ma(manageasset.jsp)
+ma-->u[UpdateAsset,deleteFile,UploadFile...]
+mu(manageuser.jsp)
+mu-->uu[UpdateUser, Register...]
+log(log.jsp)
+me(me.jsp)
+ma-->log
+ma-->mu
+in-->me
+me-->cp[ChangePassword]
+in-->r[Register]-->in
+me-->lo[Logout]
+
+
 
 ```
-
-
 
 ## 页面简介
 
@@ -47,7 +64,7 @@ already_exist | 用户名已存在
 
 ### /manageasset.jsp
 
-管理图片的界面。该界面只有当用户权限为 role 或 admin 时才可访问。
+管理图片的界面。该界面只有当用户权限为 role 或 admin 时才可访问。如果用户不具有相应权限，将会被跳转至浏览界面。
 
 该页面作为展示层，无法直接访问。需要通过后端的 ManageAssetSearch 类提供数据，再跳转到本页面。
 

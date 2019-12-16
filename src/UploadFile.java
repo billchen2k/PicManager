@@ -11,7 +11,7 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import bean.Asset;
-import com.mysql.cj.protocol.Resultset;
+import utils.Config;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -22,12 +22,7 @@ import utils.Utils;
 public class UploadFile extends HttpServlet {
 	private DatabaseManager db = new DatabaseManager();
 	private static final long serialVersionUID = 12431L;
-	// 上传文件存储目录
-	private static final String UPLOAD_DIRECTORY = "/assets/";
-	// 上传配置
-	private static final int MEMORY_THRESHOLD = 1024 * 1024 * 32;  // 32MB
-	private static final int MAX_FILE_SIZE = 1024 * 1024 * 128; // 128MB
-	private static final int MAX_REQUEST_SIZE = 1024 * 1024 * 128; // 128MB
+
 	/**
 	 * 上传数据及保存文件
 	 */
@@ -50,20 +45,20 @@ public class UploadFile extends HttpServlet {
 		// 配置上传参数
 		DiskFileItemFactory factory = new DiskFileItemFactory();
 		// 设置内存临界值 - 超过后将产生临时文件并存储于临时目录中
-		factory.setSizeThreshold(MEMORY_THRESHOLD);
+		factory.setSizeThreshold(Config.MEMORY_THRESHOLD);
 		// 设置临时存储目录
 		factory.setRepository(new File(System.getProperty("java.io.tmpdir")));
 		ServletFileUpload upload = new ServletFileUpload(factory);
 		// 设置最大文件上传值
-		upload.setFileSizeMax(MAX_FILE_SIZE);
+		upload.setFileSizeMax(Config.MAX_FILE_SIZE);
 		// 设置最大请求值 (包含文件和表单数据)
-		upload.setSizeMax(MAX_REQUEST_SIZE);
+		upload.setSizeMax(Config.MAX_REQUEST_SIZE);
 		// 中文处理
 		//upload.setHeaderEncoding("UTF-8");
 		upload.setHeaderEncoding("ISO8859_1");
 		// 构造临时路径来存储上传的文件
 		// 这个路径相对当前应用的目录
-		String uploadPath = getServletContext().getRealPath("/") + File.separator + UPLOAD_DIRECTORY;
+		String uploadPath = getServletContext().getRealPath("/") + File.separator + Config.UPLOAD_DIRECTORY;
 		// 如果目录不存在则创建
 		File uploadDir = new File(uploadPath);
 		if (!uploadDir.exists()) {
@@ -89,7 +84,7 @@ public class UploadFile extends HttpServlet {
 						System.out.println(filePath);
 						// 保存文件到硬盘
 						item.write(storeFile);
-						newAsset.setUrl(UPLOAD_DIRECTORY + fileName);
+						newAsset.setUrl(Config.UPLOAD_DIRECTORY + fileName);
 					}
 					else{
 

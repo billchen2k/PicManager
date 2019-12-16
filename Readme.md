@@ -2,6 +2,14 @@
 
 ## Intro
 
+图片浏览界面：
+
+![image-20191216145255283](Readme.assets/image-20191216145255283.png)
+
+管理界面：
+
+![image-20191216145328808](Readme.assets/image-20191216145328808.png)
+
 
 
 ## Demo
