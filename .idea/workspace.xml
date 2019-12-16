@@ -298,7 +298,14 @@
       <option name="project" value="LOCAL" />
       <updated>1575875291297</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="完成Api.md">
+      <created>1576483119213</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1576483119213</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +353,8 @@
     <MESSAGE value="未完成注册/登录页面 registered 部分，" />
     <MESSAGE value="完成注册/登录页面 register 部分，" />
     <MESSAGE value="正在完成update 和 delete部分" />
-    <option name="LAST_COMMIT_MESSAGE" value="正在完成update 和 delete部分" />
+    <MESSAGE value="完成Api.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="完成Api.md" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PicManager$Tomcat_9_0_24.ic" NAME="Tomcat 9.0.24 Coverage Results" MODIFIED="1576477103904" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

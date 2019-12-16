@@ -89,7 +89,10 @@ aid | *String* | 所删除图片id
 
 URL: /downloadfile
 
-参数：无
+参数 | 合法值 | 备注
+---|---|---
+aid | *String* | 下载图片id
+assetname | *String* | 下载图片名称
 
 ##Register
 
@@ -171,16 +174,13 @@ URL：/uploadfile
 
 参数 | 合法值 | 备注
 ---|---|---
-newAsset.getName() | *String* | 上传图片名称
-newAsset.getCategory()  | {photograph,gis,cloud} | 上传图片类型
-newAsset.getUrl() | *String* | 图片链接
-newAsset.getCountry() | *String* | 所在国家
-newAsset.getLocation() | *String* | 具体位置
-newAsset.getLatitude() | *String* | 经度
-newAsset.getLongitude() | *String* | 纬度
-Utils.getCurrentDateTime() | *datetime* | 当前时间（上传时间和最后一次更改时间）
-newAsset.getScale() | *String* | 比例尺
-session.getAttribute("logined_uid") | *Int* | 上传用户id
+uploadName | *String* | 上传图片名称
+uploadCategory  | {photograph,gis,cloud} | 上传图片类型
+uploadCountry | *String* | 所在国家
+uploadLocation | *String* | 具体位置
+uploadLatitude | *String* | 经度
+uploadLongitude | *String* | 纬度
+uploadScale | *String* | 比例尺
 
 上传后在 session 中设置 Attribute, 将 upload_stat 设置成 success 或 fail。
 
