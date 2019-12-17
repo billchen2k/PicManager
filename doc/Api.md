@@ -1,7 +1,5 @@
 # PicManager (J2EE 项目) 后端文档
 
-
-
 ## 类介绍
 
 ###  utils.Config
@@ -25,8 +23,6 @@
 | 方法名          | 域     | 输入值 | 返回值 | 备注 |
 | --------------- | ------ | ------|--- | ---- |
 | getRealRemoteIP | Public | HttpServletRequest request | String IP |取得 request 中的访问 IP|
-
-
 
 ## Servlet 介绍
 

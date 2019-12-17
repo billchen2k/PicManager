@@ -3,7 +3,7 @@ package utils;
 public class Config {
 
 	//主题
-	public static final String THEME_PRIMARY = "mdui-theme-primary-grey";
+	public static final String THEME_PRIMARY = "mdui-theme-primary-teal";
 	public static final String THEME_ACCENT = "mdui-theme-accent-pink";
 
 	//数据库配置

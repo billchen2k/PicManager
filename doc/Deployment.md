@@ -149,6 +149,8 @@ apt install openjdk-11-jdk-headless
 
 最后在浏览器中输入地址 https://picmanager.billc.io，已经可以正常访问项目。
 
+
+
 > Bill Chen
 >
 > 2019.12.16

@@ -21,6 +21,7 @@
 <%
     if (session.getAttribute("logined_uid") != null){
     	response.sendRedirect("/view");
+    	return;
     }
     Cookie cookies[] = request.getCookies();
     String rememberedIdentifier = "";
@@ -38,6 +39,7 @@
         	//有效 Cookie
             request.setAttribute("AutoLogin", true);
             request.getRequestDispatcher("/login").forward(request, response);
+            return;
         }
 
     }
