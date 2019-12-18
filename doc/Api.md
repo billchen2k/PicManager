@@ -11,8 +11,52 @@
 | 变量名        | 数据类型 | 备注       |
 | ------------- | -------- | ---------- |
 | THEME_PRIMARY | String   | 全局主题色 |
+| THEME_ACCENT | String   | 强调色  |
+| MYSQL_URL | String | 数据库url |
+| MYSQL_USER | String | 数据库用户名 |
+| MYSQL_PASS | String | 数据库密码 |
+| UPLOAD_DIRECTORY | String | 上传文件储存目录 |
+| MEMORY_THRESHOLD | int | 最大内存 |
+| MAX_REQUEST_SIZE | int | 最大请求大小 |
+| MAX_FILE_SIZE | int | 最大文件大小 |
 
 方法：无
+
+### utils.DatabaseManager
+
+数据库连接类
+
+变量 ：
+
+| 变量名        | 数据类型 | 备注       |
+| ------------- | -------- | ---------- |
+| JDBC_DRIVER | String | mysql驱动 |
+| conn | Connection | 数据库连接 |
+| stat | Statement | 用于执行简单sql语句 |
+| rs | ResultSet | 返回结果类 |
+
+方法：
+
+| 方法名          | 域     | 输入值 | 返回值 | 备注 |
+| --------------- | ------ | ------|--- | ---- |
+| DatabaseManager | Public | 无 | 无 | 加载数据库驱动 |
+| getConnection | Public | 无 | Connection | 数据库连接 |
+| executeQuery | Public | String | ResultSet | 执行查询指令 |
+| executeUpdate | Public | String | int | 执行更新指令 |
+| close | Public | 无 | void | 关闭数据库 |
+
+### utils.Encrypt
+
+加密类
+
+变量： 无 
+
+方法 ：
+
+| 方法名          | 域     | 输入值 | 返回值 | 备注 |
+| --------------- | ------ | ------|--- | ---- |
+| SHA1 | Public | String | String | 返回密码加密后结果 |
+
 
 ### utils.Utils
 
@@ -23,7 +67,9 @@
 | 方法名          | 域     | 输入值 | 返回值 | 备注 |
 | --------------- | ------ | ------|--- | ---- |
 | getRealRemoteIP | Public | HttpServletRequest request | String IP |取得 request 中的访问 IP|
-
+| getCurrentDateTime | Public | 无 | datetime | 获取当前时间 |
+| parseAsset | Public | ResultSet | Asset | 将获得信息形成bean类里Asset 的对象 |
+| parseUser | Public | ResultSet | User | 用所获得信息形成bean类里User 的对象 |
 ## Servlet 介绍
 
 ### Login
