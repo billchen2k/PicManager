@@ -303,7 +303,7 @@ Cookie 的有效期为 3 天。
 
 #### bean.Asset
 
-资源的 Java Bean，用户沟通数据库和后端。
+资源的 Java Bean，用于沟通数据库和后端。
 
 具有以下字段的 Setter 和 Getter:
 
@@ -559,10 +559,6 @@ URL：/uploadfile
 | searchCountry | *String* | 所筛选国家     |
 | searchScale   | *String* | 所筛选比例尺   |
 
-如果缺失任意一个参数，表示用户没有设置筛选器，将默认获取所有信息。
-
-完成搜索后将所搜索到的所有数据放入 assetMap 内，通过 request.setAttribute 传递数据，跳转至 view.jsp。
-
 ## 部署报告
 
 ###  服务器配置
@@ -571,21 +567,21 @@ URL：/uploadfile
 
 登录 Google 账号，前往`Google Cloud Platform`，进入 Computer Engine 的 VM 实例页面：
 
-![image-20191216160007754](Deployment.assets/image-20191216160007754.png)
+![image-20191216160007754](Readme.assets/image-20191216160007754.png)
 
 点击创建实例，设置服务器的配置。在本次部署中我使用了 `Ubuntu 18.04 LTS`，配置采用了基础的`g1-small 1 vCPU, 1.7 GB Memory`。同时为了能够浏览网页，需要在下方勾选允许 HTTP 和 HTTPS 流量。
 
-![image-20191216161347813](Deployment.assets/image-20191216161347813.png)
+![image-20191216161347813](Readme.assets/image-20191216161347813.png)
 
 新建服务器后，前往 VPC 网络界面配置防火墙规则，允许 443、80、3306 端口的上下行流量，用于访问 HTTP 和 HTTPS 服务和 MySQL 数据库。为了方便，可以临时允许所有端口的出入站流量。
 
-![image-20191216162941678](Deployment.assets/image-20191216162941678.png)
+![image-20191216162941678](Readme.assets/image-20191216162941678.png)
 
 为了允许使用密码认证的 ssh 远程登录方便在本地计算机上部署，需要先使用 Google 提供的在线 SSH 连接页面，服务器上使用 `vim /etc/ssh/sshd_config` 编辑 sshd 的配置文件。配置`PermitPasswordAuthenticatioin yes`和 `AllowRootLogin yes`，然后使用`sudo passwd`设置root用户的密码。
 
 配置完成后，使用`service sshd restart`	重启 sshd， 即可在远程登录服务器：
 
-![image-20191216163558624](Deployment.assets/image-20191216163558624.png)
+![image-20191216163558624](Readme.assets/image-20191216163558624.png)
 
 #### 环境配置
 
@@ -605,6 +601,7 @@ dpkg -i mysql-apt-config_0.8.14-1_all.deb
 apt update
 sudo apt install mysql-server
 ```
+
 安装的时候填写用户和密码后，登录 MySQL，使用命令`CREATE DATABESE picmanage;`创建项目所需的数据库。
 
 安装 Tomcat：
@@ -614,6 +611,7 @@ wget http://mirrors.tuna.tsinghua.edu.cn/apache/tomcat/tomcat-9/v9.0.29/bin/apac
 tar -xf apache-tomcat-9.0.29.tar.gz
 mv apache-tomcat-9.0.29 /usr/local/bin/tomcat
 ```
+
 为了使 Tomcat 的图形化管理界面能够从外网访问便于上传代码，需要修改 Tomcat 的配置文件：
 
 在 conf/tomcat-users.xml 中增加配置：
@@ -632,8 +630,8 @@ manager-script,manager-status"/>
 
 ```xml
 <Context antiResourceLocking="false" privileged="true" >
-  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
-         allow="^.*$" />
+  <Valve className="org.apache.catalina.valves.RemoteAddrValve"
+         allow="^.*$" />
 </Context>
 ```
 
@@ -655,7 +653,7 @@ apt install openjdk-11-jdk-headless
 
 安装后输入命令 `java --version` 检查安装版本，得到以下反馈：
 
-![image-20191216180409207](Deployment.assets/image-20191216180409207.png)
+![image-20191216180409207](Readme.assets/image-20191216180409207.png)
 
 安装成功。
 
@@ -663,7 +661,7 @@ apt install openjdk-11-jdk-headless
 
 前往 CloudFlare 的控制面板，在 DNS 选项卡下添加一条 A 类型的记录，记录指向的 ip 地址为服务器 ip，并将 ip 解析到 picmanager.bllc.io。
 
-![image-20191216173957443](Deployment.assets/image-20191216173957443.png)
+![image-20191216173957443](Readme.assets/image-20191216173957443.png)
 
 ### 生成 war 包
 
@@ -671,11 +669,11 @@ apt install openjdk-11-jdk-headless
 
 在 IntelliJ IDEA 的 Project Structure 中的 Project Structure 中新建 Artifacts，类型设置为 Archive，并设置任意导出目录。
 
-![image-20191216155129383](Deployment.assets/image-20191216155129383.png)
+![image-20191216155129383](Readme.assets/image-20191216155129383.png)
 
 在 Build 菜单中选择 Buii l d Artifacts，选择刚刚新建的 Artifact，生成 war 包。
 
-![image-20191216155030997](Deployment.assets/image-20191216155030997.png)
+![image-20191216155030997](Readme.assets/image-20191216155030997.png)
 
 ### 上传部署
 
@@ -683,7 +681,7 @@ apt install openjdk-11-jdk-headless
 
 在浏览器地址输入 picmanager.billc.io/manager/html 进入 Tomcat 的后台管理界面，输入用户名和密码，点击部署按钮上传刚刚生成的 war 包：
 
-![image-20191216173417472](Deployment.assets/image-20191216173417472.png)
+![image-20191216173417472](Readme.assets/image-20191216173417472.png)
 
 上传完成后，为了便于访问，将 PicManager_war 包设置为根目录。
 
@@ -699,11 +697,11 @@ apt install openjdk-11-jdk-headless
 
 使用 Navicat 远程连接数据库：
 
-![image-20191216212718870](Deployment.assets/image-20191216212718870.png)
+![image-20191216212718870](Readme.assets/image-20191216212718870.png)
 
 连接数据库后将 localhost 的数据库结构和数据文件导出为 SQL 文件，再导入到服务器：
 
-![image-20191216212834541](Deployment.assets/image-20191216212834541.png)
+![image-20191216212834541](Readme.assets/image-20191216212834541.png)
 
 导入完成后即可远程访问访问数据库。
 
@@ -711,18 +709,20 @@ apt install openjdk-11-jdk-headless
 
 进入 CloudFlare 的控制面板，启用该 A 类型记录的 Proxied 选项。
 
- ![image-20191216174014039](Deployment.assets/image-20191216174014039.png)
+ ![image-20191216174014039](Readme.assets/image-20191216174014039.png)
+
+
 
 然后进入 SSL/TLS 选项卡，将 SSL/TLS encryption mode 设置为 Flexible。这样即使不在服务器上配置 SSL 证书，也可使用 Cloudflare 生成的弹性证书在用户浏览器和 Cloudflare 代理服务器之间增加代理证书。
 
-![image-20191216174108662](Deployment.assets/image-20191216174108662.png)
+![image-20191216174108662](Readme.assets/image-20191216174108662.png)
 
 最后在浏览器中输入地址 https://picmanager.billc.io，已经可以正常访问项目。
 
-![image-20191217175606672](Deployment.assets/image-20191217175606672.png)
+![image-20191217175606672](Readme.assets/image-20191217175606672.png)
 
 
 
-> Bill Chen & ZXP。
+> Bill Chen & ZXP
 >
 > 2019.12.16
