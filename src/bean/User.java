@@ -2,13 +2,13 @@ package bean;
 
 public class User {
 	private int uid = -1;
-	private String username;
-	private String password;
-	private String email;
-	private String registration_date;
-	private String registration_ip;
-	private String role;
-	private String password_last_changed;
+	private String username = "N/A";
+	private String password = "N/A";
+	private String email = "N/A";
+	private String registration_date = "N/A";
+	private String registration_ip = "N/A";
+	private String role = "user";
+	private String password_last_changed = "N/A";
 
 	public User(int uid, String username, String password, String email, String registration_date, String registration_ip, String role, String password_last_changed) {
 		this.uid = uid;

@@ -26,6 +26,7 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("数据库连接失败!");
+			return null;
 		}
 		return conn;
 	}
@@ -39,6 +40,7 @@ public class DatabaseManager {
 		}
 		if (rs == null) {
 			System.out.println("查询失败：" + sql);
+			return null;
 		}
 		return rs;
 	}
@@ -51,7 +53,7 @@ public class DatabaseManager {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			System.out.println("执行失败：" + sql);
-			result = 0;
+			result = -1;
 		}
 		return result;// 执行影响的行数
 	}

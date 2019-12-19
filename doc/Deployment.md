@@ -1,14 +1,14 @@
-# PicManager (J2EE 项目) 部署报告
+## PicManager (J2EE 项目) 部署报告
 
-##  服务器配置
+###  服务器配置
 
-### 购买服务器
+#### 购买服务器
 
-登录 Google 账号，前往 Google Cloud Platform，进入 Computer Engine 的 VM 实例页面：
+登录 Google 账号，前往`Google Cloud Platform`，进入 Computer Engine 的 VM 实例页面：
 
 ![image-20191216160007754](Deployment.assets/image-20191216160007754.png)
 
-点击创建实例，设置服务器的配置。同时为了能够浏览网页，需要在下方勾选允许 HTTP 和 HTTPS 流量。
+点击创建实例，设置服务器的配置。在本次部署中我使用了 `Ubuntu 18.04 LTS`，配置采用了基础的`g1-small 1 vCPU, 1.7 GB Memory`。同时为了能够浏览网页，需要在下方勾选允许 HTTP 和 HTTPS 流量。
 
 ![image-20191216161347813](Deployment.assets/image-20191216161347813.png)
 
@@ -16,13 +16,13 @@
 
 ![image-20191216162941678](Deployment.assets/image-20191216162941678.png)
 
-为了允许使用密码认证的 ssh 远程登录方便在本地计算机上部署，需要在服务器上使用 `vim /etc/ssh/sshd_config` 编辑 sshd 的配置文件。配置`PermitPasswordAuthenticatioin yes`和 `AllowRootLogin yes`，然后使用`sudo passwd`设置root用户的密码
+为了允许使用密码认证的 ssh 远程登录方便在本地计算机上部署，需要先使用 Google 提供的在线 SSH 连接页面，服务器上使用 `vim /etc/ssh/sshd_config` 编辑 sshd 的配置文件。配置`PermitPasswordAuthenticatioin yes`和 `AllowRootLogin yes`，然后使用`sudo passwd`设置root用户的密码。
 
 配置完成后，使用`service sshd restart`	重启 sshd， 即可在远程登录服务器：
 
 ![image-20191216163558624](Deployment.assets/image-20191216163558624.png)
 
-### 环境配置
+#### 环境配置
 
 安装常用工具：
 
@@ -59,7 +59,7 @@ mv apache-tomcat-9.0.29 /usr/local/bin/tomcat
 <role rolename="manager-jmx"/>
 <role rolename="manager-script"/>
 <role rolename="manager-status"/>
-<user username="admin" password="123456" roles="admin-gui,manager-gui,manager-jmx,
+<user username="tomcat" password="123456" roles="admin-gui,manager-gui,manager-jmx,
 manager-script,manager-status"/>
 ```
 
@@ -70,6 +70,13 @@ manager-script,manager-status"/>
   <Valve className="org.apache.catalina.valves.RemoteAddrValve"
          allow="^.*$" />
 </Context>
+```
+
+前往 bin，重新启动 Tomcat：
+
+```bash
+./shutdown.sh
+./startup.sh
 ```
 
 此后可以在地址栏中访问 /manager 图形化管理站点。
@@ -87,13 +94,13 @@ apt install openjdk-11-jdk-headless
 
 安装成功。
 
-### 解析域名
+#### 解析域名
 
 前往 CloudFlare 的控制面板，在 DNS 选项卡下添加一条 A 类型的记录，记录指向的 ip 地址为服务器 ip，并将 ip 解析到 picmanager.bllc.io。
 
 ![image-20191216173957443](Deployment.assets/image-20191216173957443.png)
 
-## 生成 war 包
+### 生成 war 包
 
 配置好项目的配置文件，将数据库的地址改为远程服务器的地址。
 
@@ -105,11 +112,11 @@ apt install openjdk-11-jdk-headless
 
 ![image-20191216155030997](Deployment.assets/image-20191216155030997.png)
 
-## 上传部署
+### 上传部署
 
-### 部署项目文件
+#### 部署项目文件
 
-在浏览器地址输入 picmanager.billc.io/manager/html 进入 Tomcat 的后台管理界面，点击部署按钮上传刚刚生成的 war 包：
+在浏览器地址输入 picmanager.billc.io/manager/html 进入 Tomcat 的后台管理界面，输入用户名和密码，点击部署按钮上传刚刚生成的 war 包：
 
 ![image-20191216173417472](Deployment.assets/image-20191216173417472.png)
 
@@ -123,7 +130,7 @@ apt install openjdk-11-jdk-headless
 
 随后 PicManager 将会成为 Tomcat 的根目录访问的项目。
 
-### 部署数据库
+#### 部署数据库
 
 使用 Navicat 远程连接数据库：
 
@@ -135,7 +142,7 @@ apt install openjdk-11-jdk-headless
 
 导入完成后即可远程访问访问数据库。
 
-### 开启 SSL
+#### 开启 SSL
 
 进入 CloudFlare 的控制面板，启用该 A 类型记录的 Proxied 选项。
 
@@ -148,6 +155,8 @@ apt install openjdk-11-jdk-headless
 ![image-20191216174108662](Deployment.assets/image-20191216174108662.png)
 
 最后在浏览器中输入地址 https://picmanager.billc.io，已经可以正常访问项目。
+
+![image-20191217175606672](Deployment.assets/image-20191217175606672.png)
 
 
 

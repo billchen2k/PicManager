@@ -1,4 +1,4 @@
-# PicManager (J2EE 项目) 数据库结构
+# PicManager (J2EE 项目) 数据库文档
 
 ## 连接信息
 
